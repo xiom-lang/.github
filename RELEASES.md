@@ -1,4 +1,4 @@
-# AXIOM — Releases
+# XIOM — Releases
 
 ## v0.12.0 "Production" — 2026-07-01
 
@@ -8,8 +8,8 @@
 
 | Platform | Binary | Size |
 |----------|--------|------|
-| Windows x64 | [axiom-v0.12.0-windows-x64.zip]() | ~5MB |
-| Linux x64 | [axiom-v0.12.0-linux-x64.tar.gz]() | ~5MB |
+| Windows x64 | [xiom-v0.12.0-windows-x64.zip]() | ~5MB |
+| Linux x64 | [xiom-v0.12.0-linux-x64.tar.gz]() | ~5MB |
 
 ### What's New
 - Self-hosted compiler emits real LLVM IR for 19/21 examples
@@ -29,10 +29,10 @@ See [COMPILER_VERSIONS.md](docs/COMPILER_VERSIONS.md) for complete history.
 ```powershell
 # Windows (pre-built)
 dist\install.bat
-# Restart terminal, then: axiom --help
+# Restart terminal, then: xiom --help
 
 # From source
-cargo build --release -p axiomc
+cargo build --release -p xiomc
 ```
 
 ## Building from Source
@@ -40,8 +40,8 @@ cargo build --release -p axiomc
 Requirements: Rust 1.75+, LLVM/clang 15+
 
 ```powershell
-git clone https://github.com/NgonArt_STUDIO/AXIOM.git
-cd AXIOM
+git clone https://github.com/NgonArt_STUDIO/XIOM.git
+cd XIOM
 cargo test          # 234 tests
-cargo build -p axiomc --release
+cargo build -p xiomc --release
 ```

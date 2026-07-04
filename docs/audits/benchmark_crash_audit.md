@@ -1,4 +1,4 @@
-# AXIOM — Benchmark Crash Audit
+# XIOM — Benchmark Crash Audit
 
 **Date:** 2026-07-01  
 **Version:** v0.19.0 (Rust bootstrap + selfhost in development)  
@@ -8,7 +8,7 @@
 
 ## Summary
 
-The `examples/benchmark_stress.ax` (8,577 lines, 28 inline modules) causes the AXIOM compiler to crash due to multiple memory safety vulnerabilities in both the Rust codegen and C runtime codegen paths. This audit catalogs the root causes and provides a prioritized fix roadmap.
+The `examples/benchmark_stress.xi` (8,577 lines, 28 inline modules) causes the XIOM compiler to crash due to multiple memory safety vulnerabilities in both the Rust codegen and C runtime codegen paths. This audit catalogs the root causes and provides a prioritized fix roadmap.
 
 ---
 
@@ -16,7 +16,7 @@ The `examples/benchmark_stress.ax` (8,577 lines, 28 inline modules) causes the A
 
 ### 1.1 Vec.push Heap Buffer Overflow ★ CRITICAL
 
-**Location:** `crates/axiom-codegen/src/lib.rs` lines 2155-2198 (Rust codegen), `stdlib/runtime/axiom_runtime.c` (C codegen)
+**Location:** `crates/xiom-codegen/src/lib.rs` lines 2155-2198 (Rust codegen), `stdlib/runtime/xiom_runtime.c` (C codegen)
 
 **What happens:** `Vec.new()` allocates a fixed 128-byte buffer (16 × i64). `Vec.push` writes to `data[len]` and increments `len` with NO capacity check and NO reallocation. Any Vec exceeding 16 elements writes past the buffer into arbitrary heap memory.
 
@@ -54,7 +54,7 @@ The benchmark's test functions only use safe small inputs, but **all recursive f
 
 ### 1.3 Weak Local Variable Hashing ★ HIGH
 
-**Location:** `stdlib/runtime/axiom_runtime.c` lines 447-449
+**Location:** `stdlib/runtime/xiom_runtime.c` lines 447-449
 
 ```c
 int idx = (name[0] - 'a') % pc;  // hash by first letter
@@ -80,7 +80,7 @@ format!("sdiv i64 {a}, {b}")
 
 ### 1.5 Fixed-Size Arrays in C Runtime ★ HIGH
 
-**Location:** `stdlib/runtime/axiom_runtime.c`
+**Location:** `stdlib/runtime/xiom_runtime.c`
 
 | Buffer | Size | Impact |
 |--------|------|--------|
@@ -162,17 +162,17 @@ After Phase 1 fixes are applied:
 
 ```powershell
 # Compile with safety limits
-cargo run -p axiomc -- --run --max-recursion-depth 500 examples/benchmark_stress.ax
+cargo run -p xiomc -- --run --max-recursion-depth 500 examples/benchmark_stress.xi
 
 # Or via dist binary
-.\dist\axiom\bin\axiomc.exe --run examples/benchmark_stress.ax
+.\dist\xiom\bin\xiomc.exe --run examples/benchmark_stress.xi
 ```
 
 ---
 
 ## 5. Notes
 
-- The benchmark suite itself is structurally correct AXIOM code — the crashes are compiler bugs, not benchmark bugs
+- The benchmark suite itself is structurally correct XIOM code — the crashes are compiler bugs, not benchmark bugs
 - The multi-file `examples/benchmark/` version cannot be compiled yet because the compiler lacks filesystem-based module resolution (see `docs/audits/playground_module_gap.md`)
-- The C runtime (`axiom_runtime.c`) is a second compiler implementation — bugs here diverge from the Rust codegen and create double-maintenance burden
+- The C runtime (`xiom_runtime.c`) is a second compiler implementation — bugs here diverge from the Rust codegen and create double-maintenance burden
 - Recommendation: Deprecate the C runtime codegen path once the Rust codegen is stable enough for self-hosting
