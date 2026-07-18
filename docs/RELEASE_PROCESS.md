@@ -42,9 +42,33 @@ release/xiom-v{version}/
 │   └── xiom-icon.ico
 ├── lib/                   (standard library .xi files)
 ├── runtime/               (C runtime sources)
-├── install.bat            (Windows installer)
+├── install.bat / install.sh
 └── README.txt
 ```
+
+## Customizing the Version Banner
+
+The release tagline (`"Production"`, `"441/441 tests"`) is baked into the binary at
+compile time via `env!("XIOM_RELEASE_TAG")` and `env!("XIOM_RELEASE_STATS")`.
+Set these environment variables **before** running the package script:
+
+**Windows:**
+```powershell
+$env:XIOM_RELEASE_TAG   = "Stable"
+$env:XIOM_RELEASE_STATS = "441/441 tests, zero warnings"
+.\package.ps1 -Version "0.47.1"
+```
+
+**Linux/macOS:**
+```bash
+XIOM_RELEASE_TAG="Stable" \
+XIOM_RELEASE_STATS="441/441 tests, zero warnings" \
+./package.sh 0.47.1
+```
+
+If unset, defaults are `"Production"` and `"441/441 tests, zero warnings"`.
+The version number comes from `Cargo.toml` (auto-bumped by the script).
+The binary will report: `XIOM Compiler v0.47.1 "Stable" - 441/441 tests, zero warnings`
 
 ## Installing
 
