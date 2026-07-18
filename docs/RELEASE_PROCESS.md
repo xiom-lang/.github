@@ -8,6 +8,8 @@
 cargo test --all
 
 # 2. Package release
+
+cargo build --release -p xiomc
 .\package.ps1 -Version "0.47.0"
 
 # Output:
