@@ -4,20 +4,27 @@
 
 **Windows (PowerShell):**
 ```powershell
-# 1. Run full test suite
-cargo test --all
+# 1. Run full test suite (prints single-line summary for release tags)
+.\test_summary.ps1
+# Output: "Release tag: 445/445 tests"
 
 # 2. Package release
-
-cargo build --release -p xiomc
 .\package.ps1 -Version "0.47.0"
-
-# Output:
-#   release/xiom-v0.47.0/              (release folder)
-#   release/xiom-v0.47.0-windows-x64.zip  (portable ZIP)
+# -> Cargo.toml bumped to 0.47.0
+# -> xiomc --version reports v0.47.0
+# -> release/xiom-v0.47.0-windows-x64.zip
 ```
 
 **Linux / macOS (bash):**
+```bash
+# 1. Run full test suite
+./test_summary.sh
+# Output: "Release tag: 445/445 tests"
+
+# 2. Package release
+./package.sh 0.47.0
+# -> release/xiom-v0.47.0-linux-x64.tar.gz
+```
 ```bash
 # 1. Run full test suite
 cargo test --all
