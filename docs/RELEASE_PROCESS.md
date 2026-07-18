@@ -2,21 +2,30 @@
 
 ## Quick Build + Package
 
+**Windows (PowerShell):**
 ```powershell
 # 1. Run full test suite
-cargo test -p xiom-parser -p xiom-check -p xiom-codegen --test e2e_tests && `
-cargo test -p xiom-codegen --test feature_regression_tests && `
-cargo test -p xiom-codegen --test integration_tests
+cargo test --all
 
-# 2. Build release binary
-cargo build --release -p xiomc
-
-# 3. Package release
+# 2. Package release
 .\package.ps1 -Version "0.47.0"
 
 # Output:
-#   release/xiom-v0.47.0/          (release folder)
+#   release/xiom-v0.47.0/              (release folder)
 #   release/xiom-v0.47.0-windows-x64.zip  (portable ZIP)
+```
+
+**Linux / macOS (bash):**
+```bash
+# 1. Run full test suite
+cargo test --all
+
+# 2. Package release
+./package.sh 0.47.0
+
+# Output:
+#   release/xiom-v0.47.0/             (release folder)
+#   release/xiom-v0.47.0-linux-x64.tar.gz
 ```
 
 ## Release Structure
