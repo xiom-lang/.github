@@ -64,7 +64,7 @@ Set these environment variables **before** running the package script:
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Stable"
-$env:XIOM_RELEASE_STATS = "441/441 tests, zero warnings"
+$env:XIOM_RELEASE_STATS = "COMPILER  495/495 tests | TOOLING   207/207 | TOTAL: 702/702 | zero warnings"
 .\package.ps1 -Version "0.47.1"
 ```
 
