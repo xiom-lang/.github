@@ -9,7 +9,7 @@
 # Output: "Release tag: 445/445 tests"
 
 # 2. Package release
-.\package.ps1 -Version "0.48.7"
+.\package.ps1 -Version "0.48.8"
 # -> Cargo.toml bumped to 0.47.0
 # -> xiomc --version reports v0.47.0
 # -> release/xiom-v0.47.0-windows-x64.zip
