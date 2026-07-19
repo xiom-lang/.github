@@ -64,8 +64,8 @@ Set these environment variables **before** running the package script:
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Production - Phoenix"
-$env:XIOM_RELEASE_STATS = "COMPILER  512/521 tests | TOOLING   229/229 | TOTAL: 750/750 | Stable | MCP"
-.\package.ps1 -Version "0.48.2"
+$env:XIOM_RELEASE_STATS = "COMPILER  524/524 tests | TOOLING   229/229 | TOTAL: 753/753 | Stable | MCP"
+.\package.ps1 -Version "0.48.4"
 ```
 
 **Linux/macOS:**
