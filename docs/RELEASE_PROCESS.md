@@ -9,7 +9,7 @@
 # Output: "Release tag: 445/445 tests"
 
 # 2. Package release
-.\package.ps1 -Version "0.47.0"
+.\package.ps1 -Version "0.48.3"
 # -> Cargo.toml bumped to 0.47.0
 # -> xiomc --version reports v0.47.0
 # -> release/xiom-v0.47.0-windows-x64.zip
@@ -64,7 +64,7 @@ Set these environment variables **before** running the package script:
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Production - Phoenix"
-$env:XIOM_RELEASE_STATS = "COMPILER  519/519 tests | TOOLING   229/229 | TOTAL: 748/748 | Stable | MCP"
+$env:XIOM_RELEASE_STATS = "COMPILER  512/521 tests | TOOLING   229/229 | TOTAL: 750/750 | Stable | MCP"
 .\package.ps1 -Version "0.48.2"
 ```
 
