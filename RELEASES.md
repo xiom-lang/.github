@@ -1,8 +1,64 @@
 # XIOM — Releases
 
-## v0.46.0 "Production" — 2026-07-17
+## v0.48.5 "Phoenix" — 2026-07-20
 
-**101/101 e2e. Deterministic builds. All P0 gaps resolved. 6 P1 gaps closed.**
+**768/768 tests. 49/49 gaps closed. Z3 verification. Loop invariants. 5e Advanced Compilation complete.**
+
+### What's New
+
+**5e Advanced Compilation (all sub-phases complete)**
+- **Typed Pointer IR (5e.1):** C struct field access, `sizeof[T]()` intrinsic, Int8/Bool C layout
+- **Fn-Pointer Types (5e.2):** C callback lowering, `Int as fn(T)->R` casts
+- **Multi-Package Build (5e.3):** Cross-package `use` + `extern "C"` resolution, grandparent directory catalog, LSP walk-up project root detection
+- **Distinct Newtype (5e.4):** Type aliases are checker-distinct for handle safety
+
+**5f Z3 Contract Verification**
+- **Body encoding:** SSA lowering with `declare-const` + `assert` per let/return
+- **Correct type map:** `Int32`→`BV(32)`, `Float64`→`FloatingPoint(11,53)`, `Bool`→`Bool`
+- **Side-condition VCs:** Div-by-zero (`X7004`), overflow, bounds, null — as named asserts
+- **Contract composition:** Uninterpreted functions + contract axioms for modular verification
+- **Loop invariants:** `while cond invariant: expr { ... }` syntax + VC generation (`X7006`)
+- **z3 auto-detection:** `Z3_PATH` env, common paths, PATH — graceful fallback
+- **Counterexample extraction:** Model parsing for z3 4.13.4 raw `(` format
+- **15 verifier tests:** SMT generation + z3 integration + parser unit tests
+
+**Runtime Safety (compiler-inserted)**
+- Division by zero → `div_zero_trap` with `llvm.trap()`
+- Recursion depth → `xiom_recursion_counter` with `llvm.trap()`
+- Vec bounds checks → `icmp sge/slt` + conditional branch
+
+**Compiler Hardening**
+- **RC failure FIXED (3 bugs):** `size_of` nested generic args, `Expr::As` pointer-to-pointer cast, `Layout.new` cross-module resolution
+- **CG-02 Float32 global init:** 17-digit scientific notation for exact f32 roundtrip
+- **CG-01 Float Vec reads:** Verified fixed (5c.29 — `bitcast` instead of `sitofp`)
+- **G-20 bare-field reads:** `type_meta` fallback for catalog-loaded struct fields
+- **Benchmark suite:** All 30 modules compile, bare-field reads auto-handled via `type_meta`
+- **Stdlib freeze FIXED:** Grandparent `source_dir` guard prevents scanning system directories
+
+**Tooling**
+- **LSP:** References + Rename, catalog-aware diagnostics, walk-up project root
+- **DAP Debugger:** VS Code debug config, variable inspection from GDB locals
+- **Package Manager:** `xiom.lock` lockfile generation
+- **Verifier:** `xiom-verify --check --z3-path` with structured results
+
+### Status
+| Gate | Result |
+|------|--------|
+| E2E tests | 106/106 |
+| Feature regression | 117/117 |
+| Stdlib execution | 41/41 |
+| Stdlib compilation | 40/40 |
+| Verifier | 15/15 |
+| Integration | 119/119 |
+| Tooling | 229/229 |
+| **TOTAL** | **768/768** |
+
+### Install
+```powershell
+# From project root (Windows)
+.\package.ps1 -Version "0.48.5"
+# Release tag: 768/768 tests
+```
 
 ### Download
 
