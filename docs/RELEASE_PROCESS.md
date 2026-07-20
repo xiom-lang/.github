@@ -104,6 +104,53 @@ Copy-Item release\xiom-v0.47.0\bin\xiomc.exe -Destination "$env:LOCALAPPDATA\xio
 7. Tag: `git tag vX.Y.Z`
 8. Archive the ZIP file
 
+## Digital Signing (5e.7c)
+
+XIOM release binaries can be signed with Authenticode for Windows. This provides publisher identity verification, integrity protection, and SmartScreen reputation.
+
+### Creating a Self-Signed Certificate (Testing)
+
+```powershell
+# Generate a test code-signing certificate
+.\sign.ps1 -CreateSelfSigned
+# -> Creates xiom_test_cert.pfx (password: xiom)
+# -> Prints the certificate thumbprint
+```
+
+### Signing Release Binaries
+
+```powershell
+# Option A: Sign using a certificate in the Windows store
+.\package.ps1 -Version "0.48.9" -Sign -CertificateThumbprint "A1B2C3D4E5F6..."
+
+# Option B: Sign using a .pfx file
+.\package.ps1 -Version "0.48.9" -Sign -CertificatePath .\xiom_code_sign.pfx -CertificatePassword "secret"
+
+# Option C: Sign an already-packaged directory
+.\sign.ps1 -Path release\xiom-v0.48.9\bin -CertificateThumbprint "A1B2C3..."
+```
+
+### Production Certificate Requirements
+
+| Requirement | Details |
+|---|---|
+| Certificate type | Code Signing (OID 1.3.6.1.5.5.7.3.3) |
+| Provider | DigiCert, Sectigo, GlobalSign, or Microsoft Trusted Signing |
+| Format | .pfx (PKCS#12) or Windows Certificate Store |
+| Algorithm | SHA256 (RSA 2048-bit minimum) |
+| Timestamp | Required for long-term validity after cert expiry |
+| Storage | Azure Key Vault, hardware token, or CI/CD secrets |
+
+### Verifying Signatures
+
+```powershell
+Get-AuthenticodeSignature -FilePath "release\xiom-v0.48.9\bin\xiomc.exe"
+# Should show: Status: Valid, SignerCertificate: CN=XIOM...
+
+# Or use signtool:
+signtool verify /pa /v "release\xiom-v0.48.9\bin\xiomc.exe"
+```
+
 ## CI/CD Pipeline (AI-08)
 
 ```powershell
