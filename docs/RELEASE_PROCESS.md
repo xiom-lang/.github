@@ -104,6 +104,21 @@ Copy-Item release\xiom-v0.47.0\bin\xiomc.exe -Destination "$env:LOCALAPPDATA\xio
 7. Tag: `git tag vX.Y.Z`
 8. Archive the ZIP file
 
+## CI/CD Pipeline (AI-08)
+
+```powershell
+# GitHub Actions / CI check: verify no contract violations
+xiomc --ai-strict --check-only source.xi
+# Exit 0 = clean, Exit 1 = violations found → block PR merge
+
+# With AI diagnostics (requires API key)
+xiomc --ai --ai-strict --check-only source.xi
+# Produces .xiom_ai.json with fix suggestions, blocks merge on violations
+
+# Batch mode: check all files
+xiomc --ai-batch --ai-strict src/*.xi
+```
+
 ## Smoke Test After Build
 
 ```powershell
