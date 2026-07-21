@@ -26,7 +26,7 @@
 | xiom-codegen | **4** | 20,113 | 752 | 22 | 24 | 0 | High |
 | xiom-lsp | **4** | 2,628 | 11 | 0 | 38 | 0 | High |
 | xiom-pkg | **4** | 901 | 15 | 0 | 0 | 11 | Med |
-| xiomc | **4** | 3,700 | 3 | 2 | 4 | **28** | High |
+| xiom | **4** | 3,700 | 3 | 2 | 4 | **28** | High |
 
 ### Top 5 Systemic Issues
 
@@ -35,7 +35,7 @@
 | 1 | **God objects**: IrEmitter (61 fields), CompileConfig (25+ fields) | Testing, refactoring, parallelism | 2-3 weeks |
 | 2 | **282 unwraps** across project → user-facing crashes | Reliability | 1-2 weeks |
 | 3 | **57 process::exit** in library code → unembeddable | Reusability | 3-5 days |
-| 4 | **Missing tests**: xiomc (3), xiom-lsp (11), xiom-ast (0) | Regression risk | 1 week |
+| 4 | **Missing tests**: xiom (3), xiom-lsp (11), xiom-ast (0) | Regression risk | 1 week |
 | 5 | **Monolithic files**: expr.rs (5,323), LSP main.rs (2,628) | Maintainability | 1-2 weeks |
 
 ---
@@ -66,7 +66,7 @@
 
 | # | Tool | Rating | Critical Gap |
 |---|------|--------|--------------|
-| A1 | **xiomc** | **91/100 (A)** | Main.rs too large (1300 lines) |
+| A1 | **xiom** | **91/100 (A)** | Main.rs too large (1300 lines) |
 | A2 | xiom-fmt | **65/100 (C+)** | Missing --version, no round-trip tests |
 | A3 | xiom-doc | **66/100 (C+)** | Missing --version, duplicates xiom-display |
 | A4 | xiom-ffigen | **88/100 (A-)** | Missing --version |
@@ -133,7 +133,7 @@ Based on audit findings, these fixes must ship before 8C:
 
 | # | Fix | Effort | Crate |
 |---|-----|--------|-------|
-| M3.1 | Add integration test for xiomc::compile_with_diagnostics | 1d | xiomc |
+| M3.1 | Add integration test for xiom::compile_with_diagnostics | 1d | xiom |
 | M3.2 | Add LSP protocol tests (initialize, completion, hover) | 1d | lsp |
 | M3.3 | Add AST serialization round-trip tests | 0.5d | ast |
 | M3.4 | Verify 881 baseline + add regression tests | 0.5d | codegen |
@@ -144,7 +144,7 @@ Based on audit findings, these fixes must ship before 8C:
 |---|-----|--------|-------|
 | M4.1 | Split IrEmitter god object into sub-contexts | 1-2w | codegen |
 | M4.2 | Replace 282 unwraps with Result propagation | 1-2w | all |
-| M4.3 | Remove 57 process::exit from library code | 3-5d | xiomc, verify, pkg |
+| M4.3 | Remove 57 process::exit from library code | 3-5d | xiom, verify, pkg |
 
 ---
 

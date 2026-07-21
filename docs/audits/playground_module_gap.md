@@ -45,7 +45,7 @@ The compiler has no mechanism to:
 2. Map `use xiom.io` → `stdlib/xiom/io.xi`
 3. Parse `stdlib/xiom/io.xi` and merge its declarations into the program
 
-The `xiom-pkg` crate DOES have package resolution logic, but it's a standalone CLI tool — it's never called by `xiomc` (the compiler).
+The `xiom-pkg` crate DOES have package resolution logic, but it's a standalone CLI tool — it's never called by `xiom` (the compiler).
 
 ### The Failure Point in Code
 
@@ -72,7 +72,7 @@ fn process_use(&mut self, ud: &UseDecl) {
 - The WASM path falls through to the server path
 
 ### Server Path (Python backend)
-- `website/playground/server.py` writes user code to a temp file, runs `xiomc --emit-ir <tempfile>`
+- `website/playground/server.py` writes user code to a temp file, runs `xiom --emit-ir <tempfile>`
 - The compiler still has no filesystem resolution, so `use xiom.io` fails
 - **Fix applied (v0.13.0):** The server now detects `use xiom.X` patterns, reads `stdlib/xiom/X.xi`, and injects the content as inline `module xiom { module X { ... } }` blocks before the user code
 
@@ -102,7 +102,7 @@ Source.xi ──► Lexer ──► Parser ──► ModuleResolver ──► Ch
 ### Implementation Plan
 
 1. **Add `ModuleResolver` pass** to `xiom-check` or a new crate `xiom-resolve`
-2. **Add `--stdlib-path` CLI flag** to `xiomc` (default: `stdlib/` relative to binary)
+2. **Add `--stdlib-path` CLI flag** to `xiom` (default: `stdlib/` relative to binary)
 3. **Parse `stdlib/package.xi`** on startup to build module index
 4. **In `process_use()`:** if module not found in inline blocks, attempt filesystem resolution
 5. **For WASM:** bundle stdlib `.xi` files into the WASM binary as embedded strings, or serve them via the WASI filesystem interface

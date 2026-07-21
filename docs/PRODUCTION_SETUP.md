@@ -17,7 +17,7 @@ Split the monolithic `AXIOM` repo into focused repositories under `github.com/xi
 xiom-lang/xiom/
 ├── Cargo.toml              # workspace root (14 crates)
 ├── Cargo.lock
-├── crates/                 # all 14 crates (xiomc, xiom-codegen, xiom-check, etc.)
+├── crates/                 # all 14 crates (xiom, xiom-codegen, xiom-check, etc.)
 ├── tests/                  # test suites (.xi test files)
 ├── examples/               # example .xi programs
 ├── build/                  # build artifacts dir (.gitignored)
@@ -293,12 +293,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install xiomc
+      - name: Install xiom
         run: |
-          curl -L https://registry.xiom-lang.org/packages/xiom.stdlib/latest/xiomc-windows.zip -o xiomc.zip
-          Expand-Archive xiomc.zip -DestinationPath C:\xiom
+          curl -L https://registry.xiom-lang.org/packages/xiom.stdlib/latest/xiom-windows.zip -o xiom.zip
+          Expand-Archive xiom.zip -DestinationPath C:\xiom
           echo "C:\xiom\bin" >> $env:GITHUB_PATH
-      - run: xiomc --check-only stdlib/xiom/*.xi
+      - run: xiom --check-only stdlib/xiom/*.xi
 
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -325,12 +325,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install xiomc
+      - name: Install xiom
         run: |
-          curl -L https://registry.xiom-lang.org/xiomc-windows-latest.zip -o xiomc.zip
-          Expand-Archive xiomc.zip -DestinationPath C:\xiom
+          curl -L https://registry.xiom-lang.org/xiom-windows-latest.zip -o xiom.zip
+          Expand-Archive xiom.zip -DestinationPath C:\xiom
           echo "C:\xiom\bin" >> $env:GITHUB_PATH
-      - run: xiomc --check-only src/*.xi
+      - run: xiom --check-only src/*.xi
 
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -368,7 +368,7 @@ RELEASE_DIR="release/xiom-v${VERSION}"
 mkdir -p "${RELEASE_DIR}/bin" "${RELEASE_DIR}/lib" "${RELEASE_DIR}/runtime"
 
 # Build all tools
-for tool in xiomc xiom-fmt xiom-doc xiom-ffigen xiom-pkg xiom-lsp xiom-mcp xiom-dbg xiom-verify; do
+for tool in xiom xiom-fmt xiom-doc xiom-ffigen xiom-pkg xiom-lsp xiom-mcp xiom-dbg xiom-verify; do
     cargo build -p "$tool" --release && cp "target/release/$tool" "${RELEASE_DIR}/bin/"
 done
 
@@ -401,7 +401,7 @@ class Xiom < Formula
   end
 
   test do
-    system "#{bin}/xiomc", "--version"
+    system "#{bin}/xiom", "--version"
   end
 end
 ```

@@ -14,7 +14,7 @@
 1. **Feed `docs/AI_CONTEXT.md` as system context** to an LLM
 2. **Copy a prompt from this document** into the LLM
 3. **Save the generated `.xi` files** in the appropriate directory
-4. **Compile with `xiomc`** — if it fails, the error is a hardening signal for the compiler track
+4. **Compile with `xiom`** — if it fails, the error is a hardening signal for the compiler track
 5. **Fix any XIOM syntax errors** (the AI may use wrong syntax — AI_CONTEXT.md has the rules)
 6. **Move to the next item** when the current one compiles
 
@@ -280,10 +280,10 @@ Implement:
 
 ```powershell
 # Compile the generated file
-xiomc --emit-ir <output>.xi
+xiom --emit-ir <output>.xi
 
 # If IR is valid, compile to binary
-xiomc -o test.exe <output>.xi
+xiom -o test.exe <output>.xi
 
 # If binary links, run it
 .\test.exe

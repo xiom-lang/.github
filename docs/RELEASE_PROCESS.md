@@ -11,7 +11,7 @@
 # 2. Package release
 .\package.ps1 -Version "0.49.0"
 # -> Cargo.toml bumped to 0.47.0
-# -> xiomc --version reports v0.47.0
+# -> xiom --version reports v0.47.0
 # -> release/xiom-v0.47.0-windows-x64.zip
 ```
 
@@ -42,7 +42,7 @@ cargo test --all
 ```
 release/xiom-v{version}/
 ├── bin/
-│   ├── xiomc.exe          (main compiler)
+│   ├── xiom.exe          (main compiler)
 │   ├── xiom-fmt.exe       (formatter)
 │   ├── xiom-doc.exe       (documentation generator)
 │   ├── xiom-ffigen.exe    (FFI generator)
@@ -93,7 +93,7 @@ The binary will report: `XIOM Compiler v0.47.1 "Stable" - 441/441 tests, zero wa
 
 **Windows (manual):**
 ```powershell
-Copy-Item release\xiom-v0.47.0\bin\xiomc.exe -Destination "$env:LOCALAPPDATA\xiom\bin\xiomc.exe" -Force
+Copy-Item release\xiom-v0.47.0\bin\xiom.exe -Destination "$env:LOCALAPPDATA\xiom\bin\xiom.exe" -Force
 ```
 
 **macOS / Linux:**
@@ -103,8 +103,8 @@ Copy-Item release\xiom-v0.47.0\bin\xiomc.exe -Destination "$env:LOCALAPPDATA\xio
 
 ## Version Bump Checklist
 
-1. Update `crates/xiomc/Cargo.toml` → `version = "X.Y.Z"`
-2. Update `crates/xiomc/src/main.rs` → version string + help banner
+1. Update `crates/xiom/Cargo.toml` → `version = "X.Y.Z"`
+2. Update `crates/xiom/src/main.rs` → version string + help banner
 3. Update `docs/ROADMAP.md` → Current version
 4. Update `RELEASES.md` → Add release notes
 5. Commit: `chore: vX.Y.Z release`
@@ -152,32 +152,32 @@ XIOM release binaries can be signed with Authenticode for Windows. This provides
 ### Verifying Signatures
 
 ```powershell
-Get-AuthenticodeSignature -FilePath "release\xiom-v0.48.9\bin\xiomc.exe"
+Get-AuthenticodeSignature -FilePath "release\xiom-v0.48.9\bin\xiom.exe"
 # Should show: Status: Valid, SignerCertificate: CN=XIOM...
 
 # Or use signtool:
-signtool verify /pa /v "release\xiom-v0.48.9\bin\xiomc.exe"
+signtool verify /pa /v "release\xiom-v0.48.9\bin\xiom.exe"
 ```
 
 ## CI/CD Pipeline (AI-08)
 
 ```powershell
 # GitHub Actions / CI check: verify no contract violations
-xiomc --ai-strict --check-only source.xi
+xiom --ai-strict --check-only source.xi
 # Exit 0 = clean, Exit 1 = violations found → block PR merge
 
 # With AI diagnostics (requires API key)
-xiomc --ai --ai-strict --check-only source.xi
+xiom --ai --ai-strict --check-only source.xi
 # Produces .xiom_ai.json with fix suggestions, blocks merge on violations
 
 # Batch mode: check all files
-xiomc --ai-batch --ai-strict src/*.xi
+xiom --ai-batch --ai-strict src/*.xi
 ```
 
 ## Smoke Test After Build
 
 ```powershell
-.\target\release\xiomc.exe --version
-.\target\release\xiomc.exe --run tests\ecosystem\test_net.xi
+.\target\release\xiom.exe --version
+.\target\release\xiom.exe --run tests\ecosystem\test_net.xi
 # Should exit 0 for all ecosystem tests
 ```

@@ -162,10 +162,10 @@ After Phase 1 fixes are applied:
 
 ```powershell
 # Compile with safety limits
-cargo run -p xiomc -- --run --max-recursion-depth 500 examples/benchmark_stress.xi
+cargo run -p xiom -- --run --max-recursion-depth 500 examples/benchmark_stress.xi
 
 # Or via dist binary
-.\dist\xiom\bin\xiomc.exe --run examples/benchmark_stress.xi
+.\dist\xiom\bin\xiom.exe --run examples/benchmark_stress.xi
 ```
 
 ---

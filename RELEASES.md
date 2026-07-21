@@ -64,7 +64,7 @@
 
 | Platform | Binary | Size |
 |----------|--------|------|
-| Windows x64 | `target/release/xiomc.exe` | 3.7 MB |
+| Windows x64 | `target/release/xiom.exe` | 3.7 MB |
 
 ### What's New (5c.29–5c.30 Production Hardening)
 - **Deterministic builds** — same IR → byte-identical binary (fixed `.ll` name + `/Brepro`)
@@ -94,7 +94,7 @@
 .\install.ps1 -BinaryPath .\target\release
 
 # Or manually
-Copy-Item target\release\xiomc.exe C:\Users\$env:USERNAME\AppData\Local\xiom\bin\xiomc.exe
+Copy-Item target\release\xiom.exe C:\Users\$env:USERNAME\AppData\Local\xiom\bin\xiom.exe
 ```
 ```bash
 # macOS / Linux
@@ -117,7 +117,7 @@ c6f03c5 fix(checker,codegen): 5c.30 G-10 implicit-self
 ab3fcb0 fix(codegen): 5c.30 Vec-of-struct - VOS
 c603de6 fix(codegen): 5c.30 &local.field - TFR
 7cf7a5b fix(codegen): 5c.29 container handles - NET/DB/VECTOR/HTTP/SQLITE
-ab588e2 fix(xiomc): 5c.29 deterministic builds
+ab588e2 fix(xiom): 5c.29 deterministic builds
 ```
 
 ---
@@ -154,7 +154,7 @@ dist\install.bat
 # Restart terminal, then: xiom --help
 
 # From source
-cargo build --release -p xiomc
+cargo build --release -p xiom
 ```
 
 ## Building from Source
@@ -165,5 +165,5 @@ Requirements: Rust 1.75+, LLVM/clang 15+
 git clone https://github.com/NgonArt_STUDIO/XIOM.git
 cd XIOM
 cargo test          # 234 tests
-cargo build -p xiomc --release
+cargo build -p xiom --release
 ```

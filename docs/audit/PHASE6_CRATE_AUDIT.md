@@ -14,7 +14,7 @@
 | xiom-parser | **7.1** | GOOD | Medium |
 | xiom-check | **6.3** | NEEDS WORK | **Critical** |
 | xiom-codegen | **4.9** | NEEDS WORK | **Critical** |
-| xiomc | **6.2** | NEEDS WORK | Medium |
+| xiom | **6.2** | NEEDS WORK | Medium |
 | xiom-fmt | **6.7** | GOOD | Low |
 | xiom-mcp | **6.7** | GOOD | Medium |
 | xiom-doc | **6.1** | GOOD | Low |
@@ -113,7 +113,7 @@
 - **Refactor:** Split IrEmitter, use inkwell IR builder, deduplicate `expr_uses_this` with checker
 - **Gaps:** No debug info, no optimization pipeline, no LTO, no GC
 
-### xiomc — 6.2/10 [NEEDS WORK]
+### xiom — 6.2/10 [NEEDS WORK]
 - **Strengths:** Safe compile_with_diagnostics API, Diagnostic struct, error codes
 - **Refactor:** 1080 LOC main.rs → extract package.rs, bench.rs, scaffold.rs
 - **Gaps:** No proper argument parser (should use clap), no LSP binary, no cross-compilation sysroot
@@ -172,7 +172,7 @@
 - **Fix:** Standardize on `thiserror`-derived error types
 
 ### Version Number Chaos
-- Ranges from v0.1.0 (xiom-mcp) to v0.48.9 (xiomc)
+- Ranges from v0.1.0 (xiom-mcp) to v0.48.9 (xiom)
 - **Fix:** Use workspace `version` from root `Cargo.toml`
 
 ### Missing Integration Tests
@@ -220,7 +220,7 @@
  9 ▓
  8 ▓
  7 ▓▓▓  (xiom-ast, xiom-lexer, xiom-parser)
- 6 ▓▓▓▓ (xiom-check, xiomc, xiom-fmt, xiom-mcp, xiom-doc)
+ 6 ▓▓▓▓ (xiom-check, xiom, xiom-fmt, xiom-mcp, xiom-doc)
  5 ▓▓   (xiom-codegen, xiom-verify, xiom-ffigen)
  4 ▓
  3 ▓▓▓  (xiom-pkg, xiom-dbg, xiom-lsp)
