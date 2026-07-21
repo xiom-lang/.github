@@ -1,7 +1,7 @@
 # XIOM Production Infrastructure Setup
 
 **Domain:** xiom-lang.org | **Registry:** registry.xiom-lang.org | **Git Org:** github.com/xiom-language
-**Date:** 2026-07-20 | **Version:** v0.48.9
+**Date:** 2026-07-20 | **Version:** v0.49.8
 
 ---
 
@@ -35,7 +35,7 @@ xiom-lang/xiom/
 xiom-lang/stdlib/
 ├── package.xi              # stdlib manifest
 ├── libc.xiom-bind          # libc/libm FFI bindings
-├── xiom/                   # 41 stdlib modules
+├── xiom/                   # 40 stdlib modules
 │   ├── alloc.xi, array.xi, string.xi, ...
 │   └── ai_prompt.txt
 ├── runtime/                # C/ASM runtime
@@ -89,7 +89,7 @@ authors = ["Author <email>"]
 description = "XIOM bindings for ..."
 repository = "https://github.com/xiom-language/xiom-<name>"
 dependencies = {
-  xiom.stdlib = "0.48"
+  xiom.stdlib = "0.49"
 }
 ```
 
@@ -150,7 +150,7 @@ The registry is a simple static JSON index + REST API. Hosted on your Contabo VP
 │   ├── packages/           # per-package metadata
 │   │   ├── xiom.stdlib/
 │   │   │   ├── index.json  # versions + metadata
-│   │   │   └── 0.48.9/
+│   │   │   └── 0.49.8/
 │   │   │       ├── package.json
 │   │   │       └── package.tar.gz
 │   │   ├── xiom.vulkan/
@@ -174,8 +174,8 @@ The registry is a simple static JSON index + REST API. Hosted on your Contabo VP
       "name": "xiom.stdlib",
       "description": "XIOM Standard Library",
       "repository": "https://github.com/xiom-language/stdlib",
-      "latest": "0.48.9",
-      "versions": ["0.48.9", "0.48.0", "0.47.6"]
+      "latest": "0.49.8",
+      "versions": ["0.49.8", "0.49.0", "0.48.6"]
     },
     "xiom.vulkan": {
       "name": "xiom.vulkan",
@@ -193,10 +193,10 @@ The registry is a simple static JSON index + REST API. Hosted on your Contabo VP
 ```json
 {
   "name": "xiom.stdlib",
-  "version": "0.48.9",
+  "version": "0.49.8",
   "manifest": {
     "package": "xiom.stdlib",
-    "version": "0.48.9",
+    "version": "0.49.8",
     "dependencies": {}
   },
   "files": ["alloc.xi", "array.xi", "string.xi", "..."],
@@ -353,8 +353,8 @@ jobs:
 
 ```powershell
 # package.ps1 (already working)
-.\package.ps1 -Version "0.48.9" -Sign -CertificateThumbprint "A1B2C3..."
-# → release/xiom-v0.48.9-windows-x64.zip
+.\package.ps1 -Version "0.49.8" -Sign -CertificateThumbprint "A1B2C3..."
+# → release/xiom-v0.49.8-windows-x64.zip
 ```
 
 ### 4.2 macOS / Linux (Bash)
@@ -362,7 +362,7 @@ jobs:
 ```bash
 #!/bin/bash
 # package.sh
-VERSION="${1:-0.48.9}"
+VERSION="${1:-0.49.8}"
 RELEASE_DIR="release/xiom-v${VERSION}"
 
 mkdir -p "${RELEASE_DIR}/bin" "${RELEASE_DIR}/lib" "${RELEASE_DIR}/runtime"
