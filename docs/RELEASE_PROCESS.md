@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.50.0 "Production Edition" — First Stable Release
+## v0.51.0 "Production Hardening" — Current
 
-**Test baseline: 1039/1039 (680 compiler + 359 tooling)**
+**Test baseline: 1041/1041 (681 compiler + 360 tooling)**
 **Target platforms: Windows x64, Linux x64, macOS ARM64**
-**Key features: True JIT via libloading, Scripting mode (xiom run), REPL, Standalone build, Watch mode**
+**Key features: True JIT, Scripting mode (xiom run), REPL, Standalone, Watch, Str.slice/starts_with/ends_with, Iterator adapters (step_by/take_while/skip_while), Formatter extern/unsafe round-trip, --check implicit main, Package registry publishing**
 
 ## Quick Build + Package
 
@@ -14,12 +14,12 @@
 .\test_summary.ps1
 
 # 2. Package release
-.\package.ps1 -Version "0.50.0"
-# -> release/xiom-v0.50.0-windows-x64.zip
+.\package.ps1 -Version "0.51.0"
+# -> release/xiom-v0.51.0-windows-x64.zip
 
 # 3. Verify
-.\release\xiom-v0.50.0\bin\xiom.exe --version
-# XIOM Compiler v0.50.0 "Production Edition"
+.\release\xiom-v0.51.0\bin\xiom.exe --version
+# XIOM Compiler v0.51.0 "Production Hardening"
 ```
 
 **Linux / macOS (bash):**
@@ -28,11 +28,11 @@
 ./test_summary.sh
 
 # 2. Package release
-./package.sh 0.50.0
-# -> release/xiom-v0.50.0-linux-x64.tar.gz
+./package.sh 0.51.0
+# -> release/xiom-v0.51.0-linux-x64.tar.gz
 
 # 3. Verify
-./release/xiom-v0.50.0/bin/xiom --version
+./release/xiom-v0.51.0/bin/xiom --version
 ```
 
 ## Release Structure
@@ -63,27 +63,27 @@ release/xiom-v{version}/
 
 ## Customizing the Version Banner
 
-The release tagline (`"Production"`, `"441/441 tests"`) is baked into the binary at
-compile time via `env!("XIOM_RELEASE_TAG")` and `env!("XIOM_RELEASE_STATS")`.
+The release tagline (Production Hardening, 1041/1041 tests) is baked into the binary at
+compile time via env!(XIOM_RELEASE_TAG) and env!(XIOM_RELEASE_STATS).
 Set these environment variables **before** running the package script:
 
 **Windows:**
 ```powershell
-$env:XIOM_RELEASE_TAG   = "Earyl Production - Phoenix"
-$env:XIOM_RELEASE_STATS = "COMPILER  679/679 tests | TOOLING   251/251 | TOTAL: 920 /920  | Z3 | MCP | LSP | Hot Reload | AI"
-.\package.ps1 -Version "0.49.9"
+$env:XIOM_RELEASE_TAG   = "Production Hardening"
+$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   360/360 | TOTAL: 1041/1041 | Z3 | MCP | LSP | Scripting | JIT"
+.\package.ps1 -Version "0.51.0"
 ```
 
 **Linux/macOS:**
 ```bash
-XIOM_RELEASE_TAG="Stable" \
-XIOM_RELEASE_STATS="441/441 tests, zero warnings" \
-./package.sh 0.47.1
+XIOM_RELEASE_TAG="Production Hardening" \
+XIOM_RELEASE_STATS="1041/1041 tests, zero warnings" \
+./package.sh 0.51.0
 ```
 
-If unset, defaults are `"Production"` and `"441/441 tests, zero warnings"`.
+If unset, defaults are "Production" and "1041/1041 tests, zero warnings".
 The version number comes from `Cargo.toml` (auto-bumped by the script).
-The binary will report: `XIOM Compiler v0.47.1 "Stable" - 441/441 tests, zero warnings`
+The binary will report: `XIOM Compiler v0.51.0 "Production Hardening" - 1041/1041 tests, zero warnings`
 
 ## Installing
 
@@ -99,16 +99,23 @@ Copy-Item release\xiom-v0.47.0\bin\xiom.exe -Destination "$env:LOCALAPPDATA\xiom
 ./install.sh ./target/release
 ```
 
+| Phase | Version | Date |
+|-------|---------|------|
+| Phase 0 | v0.1.0 "Pipeline" | 2026-Q1 |
+| Phase 2 | v0.4.0 "Mirror" | 2026-Q1 |
+| Phase 2C | v0.11.0 "Self-Hosted" | 2026-Q2 |
+| Phase 8B | v0.50.0 "Production Edition" | 2026-07-24 |
+| Phase 8B | **v0.51.0 "Production Hardening"** | 2026-07-25 |
+
 ## Version Bump Checklist
 
 1. Update `crates/xiom/Cargo.toml` → `version = "X.Y.Z"`
 2. Update `crates/xiom/src/main.rs` → version string + help banner
 3. Update `docs/ROADMAP.md` → Current version
-4. Update `RELEASES.md` → Add release notes
+4. Update `docs/RELEASE_PROCESS.md` → Version + test counts
 5. Commit: `chore: vX.Y.Z release`
 6. Build + package (see above)
 7. Tag: `git tag vX.Y.Z`
-8. Archive the ZIP file
 
 ## Digital Signing (5e.7c)
 
