@@ -2,8 +2,9 @@
 
 ## v0.50.0 "Production Edition" — First Stable Release
 
-**Test baseline: 990/990 (680 compiler + 310 tooling)**
+**Test baseline: 1039/1039 (680 compiler + 359 tooling)**
 **Target platforms: Windows x64, Linux x64, macOS ARM64**
+**Key features: True JIT via libloading, Scripting mode (xiom run), REPL, Standalone build, Watch mode**
 
 ## Quick Build + Package
 
