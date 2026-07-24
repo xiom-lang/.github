@@ -157,13 +157,84 @@ dist\install.bat
 cargo build --release -p xiom
 ```
 
+## v0.51.0 "Production Hardening" — 2026-07-25
+
+**1041/1041 tests (681 compiler + 360 tooling). M1–M12 complete. P0+P1 closed. M14.3–M14.7 done.**
+
+### Key Features Delivered
+
+**Language & Runtime**
+- `Str.slice(start, end)` / `Str.starts_with(prefix)` / `Str.ends_with(suffix)` — scripting ergonomics
+- Iterator adapter parity: `step_by`, `take_while`, `skip_while`, `inspect` (23 total)
+- `--check` auto-detects script-like files and applies implicit main (G4 resolved)
+- Parser-level multi-line declaration detection for scripting mode (M12.2)
+- `io.read_line()` fixed — no longer returns Result (module export map key collision fix)
+
+**Formatter (M8)**
+- `extern` blocks now round-trip correctly (previously silently dropped)
+- `unsafe { ... }` blocks format with proper braces (previously lost)
+- 44/44 formatter tests (3 new round-trip tests)
+
+**Package Manager (M6)**
+- `xiom pkg publish` — creates tarball + multipart upload to registry
+- `xiom pkg publish` previously only sent metadata; now uploads actual package
+
+**LSP (M3.3)**
+- Rename and codeAction tests added (11→15 tests)
+
+**Quality (M14)**
+- 6 dead code items removed (~239 lines across 5 crates)
+- 5 `unreachable!()` calls given diagnostic strings
+- 3 `unsafe` blocks documented with SAFETY comments
+- 4 bare `.unwrap()` replaced with `.expect()` invariant messages
+- LLVM type constants extracted to `llvm_consts.rs` (8 files)
+- Rustdoc comments for Checker, BorrowChecker, CheckedType, FnSig, CheckError
+
+**Documentation (M14.5)**
+- New: `docs/language/reference.md` — complete language reference (350+ lines)
+- New: `docs/language/pattern-matching.md` — match, if let, while let, ? operator
+- RELEASE_PROCESS.md updated for v0.51.0
+
+**Stdlib Contracts (M2)**
+- 10 modules with safety contracts: iter, compress, log, bench, reflect, serialize, thread, contracts, path, async
+
+---
+
+## v0.50.0 "Production Edition" — 2026-07-24
+
+**1039/1039 tests. Scripting mode, JIT, REPL. 40-module stdlib.**
+
+### Key Features
+
+- **Scripting mode:** `xiom run`, `xiom --standalone`, `xiom repl`, `--watch`, shebang (`#!/usr/bin/env xiom`)
+- **True JIT compilation** via libloading — scripts compile to shared library and execute in-process
+- **49 scripting/diff tests**
+- Implicit main wrapping for script-like files
+- String concatenation operator `+` for scripting ergonomics
+
+---
+
+## v0.49.0 "Expansion" — 2026-07-22
+
+**900+ tests. Z3 verification. Loop invariants. 5e Advanced Compilation.**
+
+### Key Features
+
+- **5e.1 Typed Pointer IR:** C struct field access, `sizeof[T]()` intrinsic
+- **5e.2 Fn-Pointer Types:** C callback lowering
+- **5e.3 Multi-Package Build:** Cross-package `use` + `extern "C"` resolution
+- **5e.4 Distinct Newtype:** Type aliases are checker-distinct for handle safety
+- **5f Z3 Contract Verification:** SMT-based body encoding, side-condition VCs, loop invariants, counterexample extraction
+
+---
+
 ## Building from Source
 
-Requirements: Rust 1.75+, LLVM/clang 15+
+Requirements: Rust 1.85+, LLVM/clang 18+
 
 ```powershell
-git clone https://github.com/NgonArt_STUDIO/XIOM.git
+git clone https://github.com/XIOM-lang/XIOM.git
 cd XIOM
-cargo test          # 234 tests
+cargo test          # 1041 tests
 cargo build -p xiom --release
 ```
