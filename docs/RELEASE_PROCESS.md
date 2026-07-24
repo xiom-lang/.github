@@ -1,40 +1,37 @@
 # XIOM Release Process
 
+## v0.50.0 "Production Edition" — First Stable Release
+
+**Test baseline: 990/990 (680 compiler + 310 tooling)**
+**Target platforms: Windows x64, Linux x64, macOS ARM64**
+
 ## Quick Build + Package
 
 **Windows (PowerShell):**
 ```powershell
-# 1. Run full test suite (prints single-line summary for release tags)
+# 1. Run full test suite
 .\test_summary.ps1
-# Output: "Release tag: 445/445 tests"
 
 # 2. Package release
-.\package.ps1 -Version "0.49.0"
-# -> Cargo.toml bumped to 0.47.0
-# -> xiom --version reports v0.47.0
-# -> release/xiom-v0.47.0-windows-x64.zip
+.\package.ps1 -Version "0.50.0"
+# -> release/xiom-v0.50.0-windows-x64.zip
+
+# 3. Verify
+.\release\xiom-v0.50.0\bin\xiom.exe --version
+# XIOM Compiler v0.50.0 "Production Edition"
 ```
 
 **Linux / macOS (bash):**
 ```bash
 # 1. Run full test suite
 ./test_summary.sh
-# Output: "Release tag: 445/445 tests"
 
 # 2. Package release
-./package.sh 0.47.0
-# -> release/xiom-v0.47.0-linux-x64.tar.gz
-```
-```bash
-# 1. Run full test suite
-cargo test --all
+./package.sh 0.50.0
+# -> release/xiom-v0.50.0-linux-x64.tar.gz
 
-# 2. Package release
-./package.sh 0.47.0
-
-# Output:
-#   release/xiom-v0.47.0/             (release folder)
-#   release/xiom-v0.47.0-linux-x64.tar.gz
+# 3. Verify
+./release/xiom-v0.50.0/bin/xiom --version
 ```
 
 ## Release Structure
