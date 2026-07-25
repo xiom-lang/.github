@@ -2,7 +2,7 @@
 
 ## v0.51.0 "Production Hardening" — Current
 
-**Test baseline: 1041/1041 (681 compiler + 360 tooling)**
+**Test baseline: 1049/1049 (681 compiler + 368 tooling)**
 **Target platforms: Windows x64, Linux x64, macOS ARM64**
 **Key features: True JIT, Scripting mode (xiom run), REPL, Standalone, Watch, Str.slice/starts_with/ends_with, Iterator adapters (step_by/take_while/skip_while), Formatter extern/unsafe round-trip, --check implicit main, Package registry publishing**
 
