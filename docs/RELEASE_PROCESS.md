@@ -63,27 +63,27 @@ release/xiom-v{version}/
 
 ## Customizing the Version Banner
 
-The release tagline (Production Hardening, 1041/1041 tests) is baked into the binary at
+The release tagline (Production Hardening, 1049/1049 tests) is baked into the binary at
 compile time via env!(XIOM_RELEASE_TAG) and env!(XIOM_RELEASE_STATS).
 Set these environment variables **before** running the package script:
 
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Production Hardening"
-$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   360/360 | TOTAL: 1041/1041 | Z3 | MCP | LSP | Scripting | JIT"
+$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   360/360 | TOTAL: 1049/1049 | Z3 | MCP | LSP | Scripting | JIT"
 .\package.ps1 -Version "0.51.0"
 ```
 
 **Linux/macOS:**
 ```bash
 XIOM_RELEASE_TAG="Production Hardening" \
-XIOM_RELEASE_STATS="1041/1041 tests, zero warnings" \
+XIOM_RELEASE_STATS="1049/1049 tests, zero warnings" \
 ./package.sh 0.51.0
 ```
 
-If unset, defaults are "Production" and "1041/1041 tests, zero warnings".
+If unset, defaults are "Production" and "1049/1049 tests, zero warnings".
 The version number comes from `Cargo.toml` (auto-bumped by the script).
-The binary will report: `XIOM Compiler v0.51.0 "Production Hardening" - 1041/1041 tests, zero warnings`
+The binary will report: `XIOM Compiler v0.51.0 "Production Hardening" - 1049/1049 tests, zero warnings`
 
 ## Installing
 
