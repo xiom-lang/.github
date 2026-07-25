@@ -70,8 +70,8 @@ Set these environment variables **before** running the package script:
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Production Hardening"
-$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   360/360 | TOTAL: 1049/1049 | Z3 | MCP | LSP | Scripting | JIT"
-.\package.ps1 -Version "0.51.0"
+$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   368368| TOTAL: 1050 Z3 | MCP | LSP | Scripting | JIT"
+.\package.ps1 -Version "0.51.1"
 ```
 
 **Linux/macOS:**
