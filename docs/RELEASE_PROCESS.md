@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.51.0 "Production Hardening" — Current
+## v0.52.0 "Production Hardening" — Current
 
-**Test baseline: 1049/1049 (681 compiler + 368 tooling)**
-**Target platforms: Windows x64, Linux x64, macOS ARM64**
-**Key features: True JIT, Scripting mode (xiom run), REPL, Standalone, Watch, Str.slice/starts_with/ends_with, Iterator adapters (step_by/take_while/skip_while), Formatter extern/unsafe round-trip, --check implicit main, Package registry publishing**
+**Test baseline: 1060/1060 (692 compiler + 368 tooling)**
+**Target platforms: Windows x64, Linux x64**
+**Key features: Concrete Option/Result monomorphisation, &mut self fix, Option.len() contract builtin, zero warnings, clean exit codes, cross-platform Linux build**
 
 ## Quick Build + Package
 
@@ -14,12 +14,12 @@
 .\test_summary.ps1
 
 # 2. Package release
-.\package.ps1 -Version "0.51.0"
-# -> release/xiom-v0.51.0-windows-x64.zip
+.\package.ps1 -Version "0.52.0"
+# -> release/xiom-v0.52.0-windows-x64.zip
 
 # 3. Verify
-.\release\xiom-v0.51.0\bin\xiom.exe --version
-# XIOM Compiler v0.51.0 "Production Hardening"
+.\release\xiom-v0.52.0\bin\xiom.exe --version
+# XIOM Compiler v0.52.0 "Production Hardening"
 ```
 
 **Linux / macOS (bash):**
@@ -28,8 +28,8 @@
 ./test_summary.sh
 
 # 2. Package release
-./package.sh 0.51.0
-# -> release/xiom-v0.51.0-linux-x64.tar.gz
+./package.sh 0.52.0
+# -> release/xiom-v0.52.0-linux-x64.tar.gz
 
 # 3. Verify
 ./release/xiom-v0.51.0/bin/xiom --version
@@ -70,15 +70,15 @@ Set these environment variables **before** running the package script:
 **Windows:**
 ```powershell
 $env:XIOM_RELEASE_TAG   = "Production Hardening"
-$env:XIOM_RELEASE_STATS = "COMPILER  681/681 tests | TOOLING   368368| TOTAL: 1050 Z3 | MCP | LSP | Scripting | JIT"
-.\package.ps1 -Version "0.51.1"
+$env:XIOM_RELEASE_STATS = "1060/1060 tests, zero warnings"
+.\package.ps1 -Version "0.52.0"
 ```
 
 **Linux/macOS:**
 ```bash
 XIOM_RELEASE_TAG="Production Hardening" \
-XIOM_RELEASE_STATS="1049/1049 tests, zero warnings" \
-./package.sh 0.51.0
+XIOM_RELEASE_STATS="1060/1060 tests, zero warnings" \
+./package.sh 0.52.0
 ```
 
 If unset, defaults are "Production" and "1049/1049 tests, zero warnings".
@@ -105,7 +105,7 @@ Copy-Item release\xiom-v0.47.0\bin\xiom.exe -Destination "$env:LOCALAPPDATA\xiom
 | Phase 2 | v0.4.0 "Mirror" | 2026-Q1 |
 | Phase 2C | v0.11.0 "Self-Hosted" | 2026-Q2 |
 | Phase 8B | v0.50.0 "Production Edition" | 2026-07-24 |
-| Phase 8B | **v0.51.0 "Production Hardening"** | 2026-07-25 |
+| Phase 8B | **v0.52.0 "Production Hardening"** | 2026-07-25 |
 
 ## Version Bump Checklist
 
