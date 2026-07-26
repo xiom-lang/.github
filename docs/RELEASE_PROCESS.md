@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.52.0 "Production Hardening" — Current
+## v0.52.6 "Production Hardening" — Current
 
 **Test baseline: 1060/1060 (692 compiler + 368 tooling)**
 **Target platforms: Windows x64, Linux x64**
-**Key features: Concrete Option/Result monomorphisation, &mut self fix, Option.len() contract builtin, zero warnings, clean exit codes, cross-platform Linux build**
+**Key features: String Copy semantics, --overflow-checks flag, Char pattern matching, zero warnings, cross-platform Linux build**
 
 ## Quick Build + Package
 
