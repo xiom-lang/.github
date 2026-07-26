@@ -113,9 +113,22 @@ Copy-Item release\xiom-v0.47.0\bin\xiom.exe -Destination "$env:LOCALAPPDATA\xiom
 2. Update `crates/xiom/src/main.rs` → version string + help banner
 3. Update `docs/ROADMAP.md` → Current version
 4. Update `docs/RELEASE_PROCESS.md` → Version + test counts
-5. Commit: `chore: vX.Y.Z release`
-6. Build + package (see above)
-7. Tag: `git tag vX.Y.Z`
+5. Run QA stress test: `cd QA-TestGround && .\run_qa.ps1`
+6. Commit: `chore: vX.Y.Z release`
+7. Build + package (see above)
+8. Tag: `git tag vX.Y.Z`
+
+### QA Pipeline (run before every release)
+```powershell
+cd QA-TestGround
+.\run_qa.ps1
+# → 40 tests across flags, stress, scripting, AI, MCP, sandbox
+# → Generates QA_REPORT.md with pass/fail and bugs found
+```
+
+### Known Limitations (M18)
+- Enum concrete types: enums use base Option/Result types (variant field collision)
+- OR-pattern: `Some('a')|Some('b')` may crash in specific contexts
 
 ## Digital Signing (5e.7c)
 
