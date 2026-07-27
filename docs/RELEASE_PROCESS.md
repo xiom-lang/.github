@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.52.6 "Production Hardening" — Current
+## v0.52.7 "Production Hardening" — Current
 
 **Test baseline: 1060/1060 (692 compiler + 368 tooling)**
 **Target platforms: Windows x64, Linux x64**
-**Key features: String Copy semantics, --overflow-checks flag, Char pattern matching, zero warnings, cross-platform Linux build**
+**Key features: String Copy semantics, --overflow-checks, Char pattern matching, --help clarity, zero warnings**
 
 ## Quick Build + Package
 
