@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.52.7 "Production Hardening" — Current
+## v0.52.8 "Production Hardening" — Current
 
 **Test baseline: 1060/1060 (692 compiler + 368 tooling)**
 **Target platforms: Windows x64, Linux x64**
-**Key features: String Copy semantics, --overflow-checks, Char pattern matching, --help clarity, zero warnings**
+**Key features: String Copy semantics, --overflow-checks, Char pattern matching, --help clarity, zero warnings, M19 bugfixes (io.read_file, enum variant payload)**
 
 ## Quick Build + Package
 
@@ -14,12 +14,13 @@
 .\test_summary.ps1
 
 # 2. Package release
-.\package.ps1 -Version "0.52.0"
-# -> release/xiom-v0.52.0-windows-x64.zip
+$env:XIOM_RELEASE_TAG="Production Hardening"
+$env:XIOM_RELEASE_STATS="1060/1060 tests, M19 bugfix"
+.\package.ps1 -Version "0.52.9"
+# -> release/xiom-v0.52.9-windows-x64.zip
 
 # 3. Verify
-.\release\xiom-v0.52.0\bin\xiom.exe --version
-# XIOM Compiler v0.52.0 "Production Hardening"
+.\release\xiom-v0.52.9\bin\xiom.exe --version
 ```
 
 **Linux / macOS (bash):**
@@ -126,9 +127,8 @@ cd QA-TestGround
 # → Generates QA_REPORT.md with pass/fail and bugs found
 ```
 
-### Known Limitations (M18)
-- Enum concrete types: enums use base Option/Result types (variant field collision)
-- OR-pattern: `Some('a')|Some('b')` may crash in specific contexts
+### Known Limitations (M20)
+- None critical — 1060/1060 baseline, all M19 priority bugs resolved
 
 ## Digital Signing (5e.7c)
 
