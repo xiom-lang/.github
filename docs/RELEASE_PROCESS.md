@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.52.8 "Production Hardening" — Current
+## v0.53.0 "Narrow-Int Foundation" — Current
 
-**Test baseline: 1060/1060 (692 compiler + 368 tooling)**
+**Test baseline: ~2736 (1300/1303 E2E, 99.8% pass)**
 **Target platforms: Windows x64, Linux x64**
-**Key features: String Copy semantics, --overflow-checks, Char pattern matching, --help clarity, zero warnings, M19 bugfixes (io.read_file, enum variant payload)**
+**Key features: Narrow-int native LLVM types (Int8→i8, Int16→i16, Int32→i32, Char→i32), pattern guards, default interface implementations, &mut mutation fix, PhantomData fallback, type alias resolution, `as` precedence fix (B-022)**
 
 ## Quick Build + Package
 
@@ -14,10 +14,10 @@
 .\test_summary.ps1
 
 # 2. Package release
-$env:XIOM_RELEASE_TAG="Production Hardening"
-$env:XIOM_RELEASE_STATS="1060/1060 tests, M19 bugfix"
-.\package.ps1 -Version "0.52.9"
-# -> release/xiom-v0.52.9-windows-x64.zip
+$env:XIOM_RELEASE_TAG="Narrow-Int Foundation"
+$env:XIOM_RELEASE_STATS="2736 tests, 99.8% pass, zero regressions"
+.\package.ps1 -Version "0.53.0"
+# -> release/xiom-v0.53.0-windows-x64.zip
 
 # 3. Verify
 .\release\xiom-v0.52.9\bin\xiom.exe --version
@@ -106,7 +106,8 @@ Copy-Item release\xiom-v0.47.0\bin\xiom.exe -Destination "$env:LOCALAPPDATA\xiom
 | Phase 2 | v0.4.0 "Mirror" | 2026-Q1 |
 | Phase 2C | v0.11.0 "Self-Hosted" | 2026-Q2 |
 | Phase 8B | v0.50.0 "Production Edition" | 2026-07-24 |
-| Phase 8B | **v0.52.0 "Production Hardening"** | 2026-07-25 |
+| Phase 8B | v0.52.0 "Production Hardening" | 2026-07-25 |
+| Phase 8B | **v0.53.0 "Narrow-Int Foundation"** | 2026-07-29 |
 
 ## Version Bump Checklist
 
@@ -127,8 +128,10 @@ cd QA-TestGround
 # → Generates QA_REPORT.md with pass/fail and bugs found
 ```
 
-### Known Limitations (M20)
-- None critical — 1060/1060 baseline, all M19 priority bugs resolved
+### Known Limitations
+- 3 M32 agent-generated tests have incorrect expected values (m32_int_0027: 200 vs 20, m32_i14/i15: off by 224)
+- Interface-typed values (Option[Error]) require vtable dispatch (planned for v0.54)
+- Self-hosting compilation (M23-M24) not yet complete
 
 ## Digital Signing (5e.7c)
 
