@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.53.0 "Narrow-Int Foundation" — Current
+## v0.53.0 "Narrow-Int Foundation" — RELEASED 2026-07-30
 
-**Test baseline: ~2736 (1300/1303 E2E, 99.8% pass)**
+**Test baseline: ~2736 (1604/1604 E2E, 100% pass) | 25 commits**
 **Target platforms: Windows x64, Linux x64**
-**Key features: Narrow-int native LLVM types (Int8→i8, Int16→i16, Int32→i32, Char→i32), pattern guards, default interface implementations, &mut mutation fix, PhantomData fallback, type alias resolution, `as` precedence fix (B-022)**
+**Key features: Narrow-int native LLVM types (Int8→i8, Int16→i16, Int32→i32, Char→i32), pattern guards, default interface implementations, &mut mutation fix, PhantomData fallback, type alias resolution, `as` precedence fix (B-022), Float↔narrow-int as-cast (M39), self-host preview passes**
 
 ## Quick Build + Package
 
