@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.53.0 "Narrow-Int Foundation" — RELEASED 2026-07-30
+## v0.53.0 "Narrow-Int Foundation" — RELEASED 2026-08-02
 
-**Test baseline: ~2736 (1604/1604 E2E, 100% pass) | 25 commits**
+**Test baseline: 2197 (2192/2197 E2E, 99.77% pass) | 73 compiler hardening commits**
 **Target platforms: Windows x64, Linux x64**
-**Key features: Narrow-int native LLVM types (Int8→i8, Int16→i16, Int32→i32, Char→i32), pattern guards, default interface implementations, &mut mutation fix, PhantomData fallback, type alias resolution, `as` precedence fix (B-022), Float↔narrow-int as-cast (M39), self-host preview passes**
+**Key features: Narrow-int native LLVM types, pattern guards, default interface implementations, &mut mutation fix, PhantomData fallback, type alias resolution, `as` precedence fix, Float↔narrow-int as-cast, pointer-to-pointer casts, Vec-of-struct inline storage, C source dedup, self-host preview**
 
 ## Quick Build + Package
 
@@ -51,6 +51,7 @@ release/xiom-v{version}/
 │   ├── xiom-dbg.exe       (debugger)
 │   ├── xiom-verify.exe    (SMT contract verifier)
 │   ├── z3.exe             (bundled Z3 solver)
+│   ├── nasm.exe            (bundled NASM assembler — planned v0.54.0)
 │   └── xiom-icon.ico
 ├── lib/                   (standard library .xi files)
 ├── runtime/               (C runtime sources)
