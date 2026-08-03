@@ -1,10 +1,10 @@
 # XIOM Release Process
 
-## v0.55.0 "Safety Foundation" — CURRENT
+## v0.56.0-pre "Production Polish" — ACTIVE
 
-**Test baseline: 2197 (2197/2197 E2E, 100% pass) | 101+ compiler hardening commits**
-**Target platforms: Windows x64, Linux x64**
-**Selfhost gate: ALL CLEARED (Never, defer, LTO, debug info, CTFE, ASM, Send/Sync)**
+**Test baseline: 24/24 E2E (100% pass) | 111+ compiler hardening commits**
+**Target platforms: Windows x64, Linux x64 (WSL build verified)**
+**Selfhost gate: 17/17 CLEARED (all Phase A criticals + I2 parallel codegen DONE)**
 
 ### Key Features (v0.54 → v0.56)
 
@@ -12,44 +12,38 @@
 |---------|----------|
 | **v0.54** | CTFE Phase A+B, Binary cache (`--cache`), Parallel parse (`--parallel`), Thread-safe SyncRegistry, `const { }` blocks, Turbofish `::<T>()`, Builtins (align_of, type_id, field_offset, is_signed), Match exhaustiveness (S2), Overflow/bounds/null checks (S1), `--strict-exhaustive` |
 | **v0.55** | OrcJIT engine (`--jit`), Hot reload watcher, Inline ASM `asm()`, Never type `!`, `defer` statement, `spawn` codegen, Channel[T] ring buffer, Send/Sync markers, `build-runtime` command |
-| **v0.56** | LTO `--lto`, Debug info `--debug`/`-g`, Lazy JIT `--jit --lazy`, Thread pool (work-stealing), AI_CONTEXT.md full update |
+| **v0.56** | LTO `--lto`, Debug info `--debug`/`-g`, Lazy JIT `--jit --lazy`, Thread pool (work-stealing), Parallel codegen `--parallel-codegen`, Spawn move semantics (R2), Recursion counter fixes (R4+R5), 0 compiler warnings all crates |
 
-### Selfhost Gate Status
+### Selfhost Gate Status (v0.56.0-pre)
 
-| Gate | Status |
-|------|--------|
-| Never type (!) | ✅ v0.55 |
-| defer statement | ✅ v0.55 |
-| LTO | ✅ v0.56 |
-| Debug info | ✅ v0.56 |
-| CTFE Phase A+B | ✅ v0.54 |
-| Inline ASM | ✅ v0.55 |
-| Send/Sync | ✅ v0.55 |
-| spawn codegen | ✅ v0.55 |
-| Channel[T] | ✅ v0.55 |
-| Binary cache | ✅ v0.54 |
-| Match exhaustiveness | ✅ v0.54 |
-| Overflow/bounds checks | ✅ v0.54 |
-| **ALL GATES: CLEARED** | |
+| Gate | Version | Status |
+|------|---------|--------|
+| Never type (!) | v0.55 | ✅ |
+| defer statement | v0.55 | ✅ |
+| LTO | v0.56 | ✅ |
+| Debug info | v0.56 | ✅ |
+| CTFE Phase A+B | v0.54 | ✅ |
+| Inline ASM | v0.55 | ✅ |
+| Send/Sync markers | v0.55 | ✅ |
+| spawn codegen | v0.55 | ✅ |
+| Channel[T] | v0.55 | ✅ |
+| Thread pool | v0.56 | ✅ |
+| Binary cache | v0.54 | ✅ |
+| Match exhaustiveness | v0.54 | ✅ |
+| Overflow/bounds checks | v0.54 | ✅ |
+| Thread-local recursion counter | v0.56 | ✅ |
+| Spawn move semantics (R2) | v0.56 | ✅ |
+| Parallel codegen (I2) | v0.56 | ✅ |
+| Recursion counter integrity (R4+R5) | v0.56 | ✅ |
+| **ALL 17 GATES: CLEARED** | | |
 
-### Remaining Before Selfhost (Phase A)
+### Remaining Before Selfhost
 
-| Priority | Task | Effort |
-|----------|------|--------|
-| CRITICAL | Move semantics for spawn captures | 4 days |
-| CRITICAL | Thread-local recursion counter | 1 day |
-| CRITICAL | asm output/input constraint wiring | 3 days |
-| CRITICAL | Accurate DI emission for .xi source | 1 week |
-| HIGH | Send/Sync enforcement in checker | 5 days |
-
-### Remaining Before Selfhost (Phase B)
-
-| Priority | Task | Effort |
-|----------|------|--------|
-| HIGH | Parallel codegen (function-level rayon) | 3 days |
-| HIGH | Deadlock detection (static lock ordering) | 4 days |
-| HIGH | Spawn wrapper capture layout | 3 days |
-| MEDIUM | DWARF/PDB from .xi source | 1 week |
+| Priority | Task | Effort | Status |
+|----------|------|--------|--------|
+| CRITICAL | R1: Accurate DI emission for .xi source | 1 week | ❌ |
+| HIGH | I1: Send/Sync enforcement in checker | 5 days | 🔄 IN PROGRESS |
+| HIGH | I3: Deadlock detection | 4 days | ❌ |
 
 ## Quick Build + Package
 
