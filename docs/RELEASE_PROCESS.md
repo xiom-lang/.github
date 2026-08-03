@@ -2,9 +2,9 @@
 
 ## v0.56.0-pre "Production Polish" — ACTIVE
 
-**Test baseline: 24/24 E2E (100% pass) | 111+ compiler hardening commits**
-**Target platforms: Windows x64, Linux x64 (WSL build verified)**
-**Selfhost gate: 17/17 CLEARED (all Phase A criticals + I2 parallel codegen DONE)**
+**Test baseline: 27/27 E2E (100% pass) | 115+ compiler hardening commits**
+**Target platforms: Windows x64 ✅, Linux x64 ✅ (WSL build + compile + run verified)**
+**Selfhost gate: 19/19 CLEARED — PRE-SELFHOST COMPLETE**
 
 ### Key Features (v0.54 → v0.56)
 
@@ -41,9 +41,18 @@
 
 | Priority | Task | Effort | Status |
 |----------|------|--------|--------|
-| CRITICAL | R1: Accurate DI emission for .xi source | 1 week | ❌ |
-| HIGH | I1: Send/Sync enforcement in checker | 5 days | 🔄 IN PROGRESS |
-| HIGH | I3: Deadlock detection | 4 days | ❌ |
+| ~~CRITICAL~~ | ~~R1: Accurate DI emission for .xi source~~ | ~~1 week~~ | ✅ DONE — DWARF metadata, per-function DISubprogram |
+| ~~CRITICAL~~ | ~~R2: Move semantics for spawn captures~~ | ~~4 days~~ | ✅ DONE — capture analysis, env forwarding |
+| ~~CRITICAL~~ | ~~R3: Thread-local recursion counter~~ | ~~1 day~~ | ✅ Already implemented |
+| ~~CRITICAL~~ | ~~R4: Vec alloca leak (chaos crash)~~ | ~~2 days~~ | ✅ FIXED |
+| ~~CRITICAL~~ | ~~R5: Recursion counter leak~~ | ~~1 day~~ | ✅ FIXED |
+| ~~HIGH~~ | ~~I1: Send/Sync enforcement~~ | ~~5 days~~ | ✅ DONE — auto-derivation + spawn capture check |
+| ~~HIGH~~ | ~~I2: Parallel codegen~~ | ~~3 days~~ | ✅ DONE — --parallel-codegen flag |
+| ~~HIGH~~ | ~~Bug 1: Windows runtime leak~~ | ~~1h~~ | ✅ FIXED — #ifdef _WIN32 + sysconf fallback |
+| MEDIUM | I3: Deadlock detection | 4 days | Requires XIOM Mutex API |
+| MEDIUM | Version string update (0.53 → 0.56) | 30m | In Cargo.toml + binary |
+| LOW | macOS CI + build | 2 days | GitHub Actions runner |
+| LOW | WASM target hardening | 3 days | Full WASI support |
 
 ## Quick Build + Package
 
