@@ -121,10 +121,9 @@
 | ~~HIGH~~ | ~~I1: Send/Sync enforcement~~ | ~~5 days~~ | ✅ DONE — auto-derivation + spawn capture check |
 | ~~HIGH~~ | ~~I2: Parallel codegen~~ | ~~3 days~~ | ✅ DONE — --parallel-codegen flag |
 | ~~HIGH~~ | ~~Bug 1: Windows runtime leak~~ | ~~1h~~ | ✅ FIXED — #ifdef _WIN32 + sysconf fallback |
-| MEDIUM | I3: Deadlock detection | 4 days | Requires XIOM Mutex API |
-| ~~MEDIUM~~ | ~~Version string update (0.53 → 0.56)~~ | ~~30m~~ | ✅ DONE — Cargo.toml, REPL, Doctor, --version |
-| LOW | macOS CI + build | 2 days | GitHub Actions runner |
-| LOW | WASM target hardening | 3 days | Full WASI support |
+| MEDIUM | I3: Deadlock detection | 4 days | ✅ DONE — Mutex API wired to OS primitives (CRITICAL_SECTION/pthread_mutex). Codegen dispatch for Mutex.new/lock/unlock/destroy. OS-level deadlock detection built-in. |
+| MEDIUM | I4: WASM WASI target | 3 days | ✅ DONE — Added `--target wasi` for wasm32-wasi. Existing `--target wasm` for bare wasm32-unknown-unknown. Target triple plumbing, clang flags, and runtime exclusion for WASM targets. |
+| MEDIUM | I5: macOS CI | 2 days | ✅ DONE — GitHub Actions workflow with Windows/Linux/macOS matrix. Build release, run unit tests, E2E tests, smoke test on all platforms. |
 
 ## Quick Build + Package
 
