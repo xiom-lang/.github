@@ -11,7 +11,7 @@
 
 | Suite | Tests | Result |
 |-------|-------|--------|
-| E2E core gates (spawn, send, chaos×5, parallel, safety) | 11 | ✅ PASS |
+| E2E core gates (spawn×4, send×2, chaos×5, parallel×2, safety, DI, multi-fn) | 18 | ✅ PASS |
 | LSP server | 38 | ✅ PASS |
 | Package manager | 39 | ✅ PASS |
 | MCP server | 39 | ✅ PASS |
@@ -27,10 +27,10 @@
 | Scripting | 34 | ✅ PASS |
 | Script diff | 15 | ✅ PASS |
 | Formatter | 79 | ✅ PASS |
-| Verifier (Z3 SMT) | 24/27 | ⚠️ Flaky (Z3 timeout) |
+| Verifier (Z3 SMT) | 27 | ✅ PASS (stable, 3/3 runs) |
 | Checker | — | ⚠️ Stack overflow on deep nesting |
 | Parser | — | ⚠️ Stack overflow on deep nesting |
-| **Stable Verified Total** | **516** | **100% of non-flaky** |
+| **Stable Verified Total** | **543** | **100% of non-flaky** |
 
 ### Key Features (v0.54 → v0.56)
 
