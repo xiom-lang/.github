@@ -5,7 +5,52 @@
 **Test baseline: 27/27 E2E core gates + 260+ tooling unit tests (100% pass) | Full suite: ~3,700 tests**
 **Target platforms: Windows x64 ✅, Linux x64 ✅ (WSL build + compile + run verified)**
 **Selfhost gate: 19/19 CLEARED — PRE-SELFHOST COMPLETE**
+**All P0/P1/P2 issues RESOLVED — compiler is production-grade at selfhost scale**
 **0 compiler warnings — all 6 crates (Windows + Linux)**
+
+---
+
+## Selfhost Readiness Checklist
+
+### ✅ Completed (Compiler)
+- [x] 19/19 selfhost gates cleared
+- [x] All P0/P1/P2 production gates fixed (14/14 fixes, 35 E2E tests)
+- [x] 0 compiler warnings across all crates
+- [x] Linux + Windows builds verified
+- [x] All benchmark tasks pass (t1-t5, 100% pass rate)
+- [x] Scaling architecture designed (`docs/SCALING_ARCHITECTURE.md`)
+
+### 🔄 In Progress (Infrastructure — Before Selfhost)
+- [ ] **Split monorepo → separate GitHub repos** under XIOM organization:
+  - [ ] `xiom-compiler` — crates/xiom* (compiler + tools)
+  - [ ] `xiom-stdlib` — stdlib/ (standard library)
+  - [ ] `xiom-benchmark` — xiom-benchmark-chaos/ (benchmark harness)
+  - [ ] `xiom-docs` — docs/ + website
+  - [ ] `xiom-registry` — registry server (Node.js/Express)
+  - [ ] `xiom-playground` — WASM playground
+- [ ] **GitHub Actions CI** for each repo:
+  - [ ] Windows x64 build + test
+  - [ ] Linux x64 build + test
+  - [ ] macOS x64 build + test (new)
+  - [ ] WASM target build
+  - [ ] Release artifact packaging
+- [ ] **Package registry** setup:
+  - [ ] Registry server deployed (registry.xiom-lang.org)
+  - [ ] `xiom pkg publish` working end-to-end
+  - [ ] `xiom pkg install xiom-stdlib` working
+  - [ ] All 40 stdlib modules published
+- [ ] **Release v0.56.0**:
+  - [ ] Version bumped to 0.56.0 (final, drop -pre)
+  - [ ] Binary packages for Windows, Linux, macOS
+  - [ ] Installer scripts (install.ps1, install.sh)
+  - [ ] CHANGELOG.md updated
+
+### ⏳ Pending (Selfhost Phase — After Infrastructure)
+- [ ] Selfhost bootstrap: XIOM compiler written in XIOM
+- [ ] Differential testing: Rust-bootstrapped vs self-compiled IR must match
+- [ ] Selfhost CI: self-compiled compiler compiles the test suite
+
+---
 
 ### Verified Test Counts (This Session)
 
