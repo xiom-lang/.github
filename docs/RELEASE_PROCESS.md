@@ -125,6 +125,18 @@
 | MEDIUM | I4: WASM WASI target | 3 days | ✅ DONE — Added `--target wasi` for wasm32-wasi. Existing `--target wasm` for bare wasm32-unknown-unknown. Target triple plumbing, clang flags, and runtime exclusion for WASM targets. |
 | MEDIUM | I5: macOS CI | 2 days | ✅ DONE — GitHub Actions workflow with Windows/Linux/macOS matrix. Build release, run unit tests, E2E tests, smoke test on all platforms. |
 
+### Remaining Compiler Gaps (v0.56 hardening — discovered during stdlib pass)
+
+| Priority | Gap | Impact | Root Cause |
+|----------|-----|--------|------------|
+| **HIGH** | t1-allocator memory 29MB (10x Rust) | Benchmark regression | Vec[Int] pool uses 8 bytes/element (should be Vec[UInt8]); Vec never frees backing buffer (no Drop trait) |
+| MEDIUM | contracts.xi (14 errors) | Stdlib file won't compile | Tuple `.1` field access — parser doesn't support numeric field names |
+| MEDIUM | Option/Result .unwrap() regression (~16 errors) | regex.xi, rand.xi broken | `is_empty` primitive-block edit caused match arm reorder in container block |
+| MEDIUM | io.xi (2 errors) | Last 2 stdlib errors | Return type mismatch (Option vs ()) + assignment mismatch (Vec = Str) |
+| LOW | Parser stack overflow on deep nesting | Test suite crash | `prop_deep_nesting_no_panic` test overflows recursion in parser |
+| LOW | Checker stack overflow on certain tests | Test suite crash | `test_divergence_unsafe_with_early_return` overflows checker recursion |
+| LOW | async.xi codegen IR type mismatch | Stdlib file won't compile | Vec/i64 type confusion in spawn capture codegen |
+
 ## Quick Build + Package
 
 **All platforms — full test suite:**
