@@ -139,36 +139,52 @@
 
 ## Quick Build + Package
 
-**All platforms — full test suite:**
-```bash
-# Windows (PowerShell)
-.\test_summary.ps1
+### Test Suite — All Platforms
 
-# Linux / macOS (bash)
-./test_summary.sh
+```powershell
+# Windows (PowerShell)
+.\test_summary.ps1                 # Full ~4000 tests
+.\test_summary.ps1 -Fast            # Skip E2E/full-diff/fuzz (~30s)
+.\test_summary.ps1 -E2EOnly         # Just 13 core gate tests (~10s)
+.\test_summary.ps1 -Threads 16      # More parallelism
+.\test_summary.ps1 -Logs            # Write .testlogs/session_*.txt
+.\test_summary.ps1 -CleanBuild      # Delete .test_build/ contents
+.\test_summary.ps1 -CleanLogs       # Delete .testlogs/ contents
 ```
 
-**Windows (PowerShell):**
+```bash
+# Linux / macOS (bash)
+./test_summary.sh                   # Full ~4000 tests
+./test_summary.sh -fast              # Skip E2E/full-diff/fuzz
+./test_summary.sh -e2eonly           # Just 13 core gate tests
+./test_summary.sh -threads 16        # More parallelism
+./test_summary.sh -logs              # Write .testlogs/session_*.txt
+./test_summary.sh -cleanbuild        # Delete .test_build/ contents
+./test_summary.sh -cleanlogs         # Delete .testlogs/ contents
+```
+
+| Flag | PS | Bash | Description |
+|------|-----|------|-------------|
+| Fast mode | `-Fast` | `-fast` | Skip E2E, full-diff, fuzz, feature-reg (~30s) |
+| E2E only | `-E2EOnly` | `-e2eonly` | Run only 13 core gate tests (~10s) |
+| Threads | `-Threads N` | `-threads N` | Set test threads (default: 8) |
+| Logs | `-Logs` | `-logs` | Write .testlogs/session_YYYYMMDD_HHMMSS.txt |
+| Clean build | `-CleanBuild` | `-cleanbuild` | Delete .test_build/ contents |
+| Clean logs | `-CleanLogs` | `-cleanlogs` | Delete .testlogs/ contents |
+
+### Output directories
+- `.test_build/` — All test binaries and artifacts (gitignored)
+- `.testlogs/` — Session logs and failure details (gitignored)
+
+### Package release (Windows):
 ```powershell
-# 1. Run full test suite (~4000 tests)
-.\test_summary.ps1
-
-# 2. Package release
 .\package.ps1 -Version "0.56.0"
-
-# 3. Verify
 .\release\xiom-v0.56.0\bin\xiom.exe --version
 ```
 
-**Linux / macOS (bash):**
+### Linux/macOS build:
 ```bash
-# 1. Run full test suite (~4000 tests)
-./test_summary.sh
-
-# 2. Build runtime
 ./target/release/xiom build-runtime
-
-# 3. Verify
 ./target/release/xiom --version
 ```
 
