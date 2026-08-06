@@ -261,6 +261,9 @@ cargo test -p xiom-dbg                                          # 29 tests
 cargo test -p xiom-display                                      # 5 tests
 
 # === QUICK SMOKE (26 E2E core gates) ===
+# NOTE: e2e_chaos_* and e2e_i2_* use INTERNAL fixtures in tests/ecosystem/
+# (copied from xiom-benchmark-chaos reference patterns, UTF-8) — they do NOT
+# depend on the benchmark repo. e2e_spawn/e2e_send use tests/regression/.
 cargo test -p xiom-codegen --test e2e_tests -- chaos eco_ ctfe e2e_asm e2e_never_type e2e_spawn e2e_send e2e_i2
 
 # === BUILD ===
@@ -289,6 +292,9 @@ wsl -d Ubuntu -- bash -c 'source ~/.cargo/env && cd /mnt/e/Projects/AXIOM && car
 ## Release Checklist
 
 - [x] Core E2E gates pass (11/11): `cargo test -p xiom-codegen --test e2e_tests -- e2e_spawn e2e_send e2e_chaos e2e_i2 e2e_safety`
+  - e2e_chaos_*/e2e_i2_*: internal fixtures (`tests/ecosystem/t1-allocator.xi` … `t5-btree.xi`), re-encoded UTF-8 — no dependency on `xiom-benchmark-chaos` reference files
+  - e2e_spawn_*/e2e_send_*: internal regression tests (`tests/regression/spawn_*.xi`, `tests/regression/send_*.xi`)
+  - e2e_safety_probe: internal fixture (`tests/ecosystem/t8-safety-probe.xi`); runtime blocked on `env.args()` FFI crash (see codegen gap below)
 - [x] Tooling tests pass (253/253): all LSP, pkg, MCP, dbg, ffigen, doc, graph, JIT, display, lexer
 - [x] Compiler builds with 0 warnings (Windows + Linux)
 - [x] `cargo build -p xiom --release` succeeds
