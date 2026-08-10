@@ -1,5 +1,34 @@
 # XIOM Release Process
 
+## v0.57.0 "Unsafe Confinement" — RELEASED (2026-08-10)
+
+**Test baseline: fast-gate 1110 passed / 3 failed (all 3 pre-existing: `test_diff_test_produces_correct_ir` per handoff, stdlib-exec complex + net) / 1 ignored; checker 178/178; stdlib-compile 40/40; parser 96/96; feature-regression 510/510; integration 128/128**
+**Target platforms: Windows x64 ✅ (released + installed), Linux x64 (WSL build verified), WASM (prior baseline)**
+**Selfhost gate: P8 verified — `selfhost/xiomc_v10.xi` compiles clean under all Unsafe Confinement gates**
+**Version: Cargo.toml + xiom-codegen bumped to 0.57.0; git tag `v0.57.0` created**
+
+> **What's in v0.57.0:** Unsafe Confinement complete — P1 gates (T002 extern gate,
+> T003 signature gate, block-only unsafe), P2 contracts (T007 requires gate), P3
+> guard-heap arena + Copy-Out, P4 stack guard pages, P5 canonical SEH trampoline
+> fault trap (REPLACED the hanging inline VEH; block-as-function + pointer
+> captures + nested-return routing + arena-aware realloc), P6 transient retry
+> (`#[unsafe_no_retry]`), P7 `#[unsafe_direct]` + `--enable-unsafe-direct` gate,
+> T006 FFI-ownership checker rule, P8 selfhost gate. Fault-injection smokes
+> (AV/ud2/div0 survive; retry delivers value). MCP tools aligned (sandbox audit
+> fixed, cheatsheet/guides updated).
+
+### Package + Install (Windows)
+```powershell
+.\package.ps1 -Version "0.57.0"
+# -> release\xiom-v0.57.0\ + xiom-v0.57.0-windows-x64.zip
+# Install: release\xiom-v0.57.0\install.bat  (or manual copy to %LOCALAPPDATA%\xiom)
+# Verified: xiom --version -> v0.57.0 "Unsafe Confinement";
+#           xiom --sandbox --sandbox-report=json -> compiler_version 0.57.0;
+#           guard-fault + guard-retry smokes pass with the installed binary.
+```
+
+---
+
 ## v0.56.0 "Production Polish" — RELEASE CANDIDATE (2026-08-06)
 
 **Test baseline: 2,231 E2E tests (2,230 pass, 1 known flake) + 1,284 unit/tooling tests (100% pass)**
