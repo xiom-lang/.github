@@ -47,3 +47,44 @@ docs/COMPILER_BUGS.md (BUG 30 survey). **YOUR share (stdlib-side):**
 The compiler-side list (Map AVs, fmt AVs, void-in-expression,
 Bounded/is_finite, BST field-type mixup, BUG 26 #2/#3/#5) is the compiler
 session's queue â€” do NOT work around those in the stdlib.
+
+---
+
+## 2026-08-16 late — compiler session: BUG 32-38 queue results (for the stdlib session)
+
+FIXED on the compiler side (rebuild tgt_iso to pick up; all verified):
+- BUG 38 (is-Some double-check), BUG 38b (generic-receiver methods — the
+  iter family), BUG 32 (Int->ptr cast), BUG 33 (Option[Float128] unwrap),
+  BUG 31 (fp128 fneg), BUG 34 (nested Vec[Vec[T]] writes).
+- BUG 35 primary shape verified working; extreme variant needs your repro.
+- P001: no hang reproduces; the crypto smoke compiles in ~5s.
+
+STILL OPEN (compiler, needs a deep-dive session):
+- BUG 37/36: BigFloat-chain Vec-len loop bound + any fp128 op in the loop
+  body = deterministic AV even at -O0 with sound IR (repro: t_b37f/
+  t_chainloop in my scratch; also reproduced in USER space, no catalog).
+  bigfloat_to_float128 still crashes for non-zero values — your
+  three-shape workaround did not fully dodge it. Please re-send the
+  EXACT failing consumer shape if you have one.
+
+STDLIB-SIDE (yours):
+- smoke_num_saturating: needs real Bounded/Ord impls (confirmed).
+- smoke_alloc_basic: needs use xiom.ptr; (confirmed).
+- char.xi from_digit: the smoke fails with a FALSE contract violation
+  ('requires at 106:13') in the multi-call shape — the requires contract
+  sits on a graceful-fallback fn (stdlib rule BUG 22 #5: no contracts on
+  fallback fns). Remove the requires or restructure.
+- smoke_collections_vec_push_pop: Vec.is_empty() is broken (returns
+  false on an empty vec) — reproduces at baseline HEAD, compiler item or
+  stdlib workaround?
+- Stale smokes calling .get(0) on Vec results (smoke_iter_map/collect/
+  enumerate/chained_adapters etc.): Vec.get is NOT a Vec method; the
+  checker resolves it to a random generic (Int.get / Map.get) and the
+  value checks fail. Use indexing [0] (the smokes' len checks pass).
+- The iter adapter-chain smokes (map/filter/enumerate/take/skip chains):
+  receiver-CALL chains for generic methods + fn-value params still fail
+  (reproduces at baseline; B-007-adjacent, on the compiler queue).
+
+Re-triage of your two remaining lists (238 files, current binary):
+43 pass / 82 compilefail / 113 runfail. The fmt/Map/rc/cell/utf8 families
+you filtered are mostly green now. Full breakdown in COMPILER_BUGS.md.
