@@ -88,3 +88,15 @@ STDLIB-SIDE (yours):
 Re-triage of your two remaining lists (238 files, current binary):
 43 pass / 82 compilefail / 113 runfail. The fmt/Map/rc/cell/utf8 families
 you filtered are mostly green now. Full breakdown in COMPILER_BUGS.md.
+
+## GREEN LIGHT (2026-08-17) — stdlib session may wrap up
+
+The compiler side of the queue is committed (9042e8a2, 74bcc28b,
+15d0d3b). You are cleared to finalize and close your stdlib-side items:
+the list above (char.xi from_digit contract, Vec.is_empty, stale .get(0)
+smoke usage, num_saturating Bounded/Ord, alloc_basic import) plus any
+remaining API realignment. Do NOT work around the OPEN compiler items
+(BUG 37/36 fp128-chain AV, iter adapter chains) in the stdlib — they are
+queued on the compiler side with repros. The api_freeze harness snapshot
+(item B) will be re-aligned by the compiler session; expect it to fail
+until then.
