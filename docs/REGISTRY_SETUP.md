@@ -1,8 +1,8 @@
-# XIOM Package Registry — Setup Guide
+# XIOM Package Registry -- Setup Guide
 
 > **Domain:** `https://registry.xiom-lang.com` (owned, DNS pointed to Contabo VPS)
 > **Control Panel:** HestiaCP
-> **Target:** Phase 5d.2 — Production-grade package registry
+> **Target:** Phase 5d.2 -- Production-grade package registry
 
 ## Step 1: Deploy Registry Server on VPS
 
@@ -12,7 +12,7 @@ The registry is a simple static JSON API. You need to serve two endpoints:
 
 Upload these files to the VPS under `/home/admin/web/registry.xiom-lang.com/public_html/`:
 
-**`index.json`** — Package index listing all published packages:
+**`index.json`** -- Package index listing all published packages:
 ```json
 {
   "packages": {
@@ -22,7 +22,7 @@ Upload these files to the VPS under `/home/admin/web/registry.xiom-lang.com/publ
 }
 ```
 
-**`publish/`** — POST endpoint. If using HestiaCP + PHP, create:
+**`publish/`** -- POST endpoint. If using HestiaCP + PHP, create:
 
 **`public_html/publish/index.php`:**
 ```php
@@ -47,7 +47,7 @@ echo json_encode(['status' => 'published', 'name' => $body['name'], 'version' =>
 ### Option B: Simple Go/Rust HTTP server
 
 ```go
-// registry.go — minimal package registry
+// registry.go -- minimal package registry
 package main
 import ("encoding/json"; "net/http"; "os")
 var index map[string]interface{}
@@ -73,7 +73,7 @@ Put behind nginx reverse proxy (HestiaCP auto-configures this for the domain).
 
 ## Step 2: SSL Certificate
 
-In HestiaCP → Web → `registry.xiom-lang.com` → Enable SSL → Let's Encrypt.
+In HestiaCP -> Web -> `registry.xiom-lang.com` -> Enable SSL -> Let's Encrypt.
 
 ## Step 3: Test
 
@@ -111,7 +111,7 @@ xiom pkg install my-package
 After installing dependencies, generate the lockfile:
 ```bash
 xiom pkg lock
-# Produces xiom.lock — commit this to version control
+# Produces xiom.lock -- commit this to version control
 ```
 
 Example `xiom.lock`:

@@ -9,53 +9,53 @@
 
 Split the monolithic `AXIOM` repo into focused repositories under `github.com/xiom-language/`.
 
-### 1.1 Core Compiler — `xiom-lang/xiom`
+### 1.1 Core Compiler -- `xiom-lang/xiom`
 
-**Contents:** The entire Rust workspace — compiler + toolchain + tests.
+**Contents:** The entire Rust workspace -- compiler + toolchain + tests.
 
 ```
 xiom-lang/xiom/
-├── Cargo.toml              # workspace root (14 crates)
-├── Cargo.lock
-├── crates/                 # all 14 crates (xiom, xiom-codegen, xiom-check, etc.)
-├── tests/                  # test suites (.xi test files)
-├── examples/               # example .xi programs
-├── build/                  # build artifacts dir (.gitignored)
-├── .github/workflows/ci.yml
-├── README.md
-├── LICENSE (MIT OR Apache-2.0)
-└── .gitignore
+|-- Cargo.toml              # workspace root (14 crates)
+|-- Cargo.lock
+|-- crates/                 # all 14 crates (xiom, xiom-codegen, xiom-check, etc.)
+|-- tests/                  # test suites (.xi test files)
+|-- examples/               # example .xi programs
+|-- build/                  # build artifacts dir (.gitignored)
+|-- .github/workflows/ci.yml
+|-- README.md
+|-- LICENSE (MIT OR Apache-2.0)
+`-- .gitignore
 ```
 
 **Branch strategy:** `main` (stable), `feat/*` (features), `fix/*` (bugs)
 
-### 1.2 Standard Library — `xiom-lang/stdlib`
+### 1.2 Standard Library -- `xiom-lang/stdlib`
 
 ```
 xiom-lang/stdlib/
-├── package.xi              # stdlib manifest
-├── libc.xiom-bind          # libc/libm FFI bindings
-├── xiom/                   # 40 stdlib modules
-│   ├── alloc.xi, array.xi, string.xi, ...
-│   └── ai_prompt.txt
-├── runtime/                # C/ASM runtime
-│   ├── xiom_runtime.c
-│   ├── xiom_hot_reload.c
-│   ├── async_runtime.c
-│   ├── simd_runtime.c
-│   ├── sha256_sw.c, sha256_sw.h
-│   ├── context_switch.asm
-│   ├── crypto_x86_64.asm
-│   ├── mem_x86_64.asm
-│   └── hot_reload_demo.xi
-├── .github/workflows/ci.yml
-├── README.md
-└── LICENSE
+|-- package.xi              # stdlib manifest
+|-- libc.xiom-bind          # libc/libm FFI bindings
+|-- xiom/                   # 40 stdlib modules
+|   |-- alloc.xi, array.xi, string.xi, ...
+|   `-- ai_prompt.txt
+|-- runtime/                # C/ASM runtime
+|   |-- xiom_runtime.c
+|   |-- xiom_hot_reload.c
+|   |-- async_runtime.c
+|   |-- simd_runtime.c
+|   |-- sha256_sw.c, sha256_sw.h
+|   |-- context_switch.asm
+|   |-- crypto_x86_64.asm
+|   |-- mem_x86_64.asm
+|   `-- hot_reload_demo.xi
+|-- .github/workflows/ci.yml
+|-- README.md
+`-- LICENSE
 ```
 
 **Versioning:** Independent semver. Tagged releases trigger registry updates.
 
-### 1.3 Ecosystem Packages — One Repo Per Package
+### 1.3 Ecosystem Packages -- One Repo Per Package
 
 Each ecosystem package gets its own repo under `xiom-lang/` with naming convention `xiom-<name>`:
 
@@ -69,16 +69,16 @@ xiom-lang/xiom-vector       xiom-lang/xiom-imgui
 **Each package repo contains:**
 ```
 xiom-lang/xiom-<name>/
-├── package.xi              # package manifest (required)
-├── src/                    # XIOM sources
-├── tests/                  # package tests
-├── examples/               # usage examples
-├── bridge/                 # C/C++ bridge code (if applicable)
-├── *.xiom-bind             # FFI binding specs (if applicable)
-├── docs/                   # package-specific docs
-├── README.md
-├── .github/workflows/ci.yml
-└── LICENSE
+|-- package.xi              # package manifest (required)
+|-- src/                    # XIOM sources
+|-- tests/                  # package tests
+|-- examples/               # usage examples
+|-- bridge/                 # C/C++ bridge code (if applicable)
+|-- *.xiom-bind             # FFI binding specs (if applicable)
+|-- docs/                   # package-specific docs
+|-- README.md
+|-- .github/workflows/ci.yml
+`-- LICENSE
 ```
 
 **Package manifest (`package.xi`):**
@@ -93,28 +93,28 @@ dependencies = {
 }
 ```
 
-### 1.4 Documentation & Website — `xiom-lang/docs`
+### 1.4 Documentation & Website -- `xiom-lang/docs`
 
 ```
 xiom-lang/docs/
-├── docs/                   # all .md documentation
-│   ├── language/           # language reference
-│   │   └── stdlib/         # per-module stdlib docs
-│   ├── rust/               # rustc lessons
-│   ├── z3/                 # Z3 integration docs
-│   ├── ecosystem-audit/    # gap registry
-│   └── error_codes/        # error code reference
-├── website/                # static website
-│   ├── index.html
-│   ├── style.css
-│   ├── playground/         # web playground
-│   └── docs/               # mirrored docs
-├── specs/                  # language + build specs
-├── .github/workflows/pages.yml  # deploy to GitHub Pages
-└── README.md
+|-- docs/                   # all .md documentation
+|   |-- language/           # language reference
+|   |   `-- stdlib/         # per-module stdlib docs
+|   |-- rust/               # rustc lessons
+|   |-- z3/                 # Z3 integration docs
+|   |-- ecosystem-audit/    # gap registry
+|   `-- error_codes/        # error code reference
+|-- website/                # static website
+|   |-- index.html
+|   |-- style.css
+|   |-- playground/         # web playground
+|   `-- docs/               # mirrored docs
+|-- specs/                  # language + build specs
+|-- .github/workflows/pages.yml  # deploy to GitHub Pages
+`-- README.md
 ```
 
-### 1.5 Editor Integrations — One Per Editor
+### 1.5 Editor Integrations -- One Per Editor
 
 ```
 xiom-lang/vscode-xiom       # VS Code extension
@@ -136,7 +136,7 @@ xiom-lang/homebrew-xiom     # Homebrew formula (macOS)
 
 ---
 
-## 2. REGISTRY SETUP — registry.xiom-lang.org
+## 2. REGISTRY SETUP -- registry.xiom-lang.org
 
 ### 2.1 Server Architecture
 
@@ -145,21 +145,21 @@ The registry is a simple static JSON index + REST API. Hosted on your Contabo VP
 **Directory structure on VPS:**
 ```
 /home/lefteris/web/registry.xiom-lang.org/
-├── public_html/
-│   ├── index.json          # master package index
-│   ├── packages/           # per-package metadata
-│   │   ├── xiom.stdlib/
-│   │   │   ├── index.json  # versions + metadata
-│   │   │   └── 0.49.8/
-│   │   │       ├── package.json
-│   │   │       └── package.tar.gz
-│   │   ├── xiom.vulkan/
-│   │   │   └── ...
-│   │   └── ...
-│   ├── api/                # optional API endpoints
-│   │   ├── search.php
-│   │   └── publish.php    # token-authenticated
-│   └── .htaccess           # CORS + caching headers
+|-- public_html/
+|   |-- index.json          # master package index
+|   |-- packages/           # per-package metadata
+|   |   |-- xiom.stdlib/
+|   |   |   |-- index.json  # versions + metadata
+|   |   |   `-- 0.49.8/
+|   |   |       |-- package.json
+|   |   |       `-- package.tar.gz
+|   |   |-- xiom.vulkan/
+|   |   |   `-- ...
+|   |   `-- ...
+|   |-- api/                # optional API endpoints
+|   |   |-- search.php
+|   |   `-- publish.php    # token-authenticated
+|   `-- .htaccess           # CORS + caching headers
 ```
 
 ### 2.2 Registry Index Format (`index.json`)
@@ -248,7 +248,7 @@ xiom pkg publish --registry https://registry.xiom-lang.org
 
 ---
 
-## 3. CI/CD SETUP — GitHub Actions
+## 3. CI/CD SETUP -- GitHub Actions
 
 ### 3.1 `xiom-lang/xiom` (Compiler)
 
@@ -349,12 +349,12 @@ jobs:
 
 ## 4. CROSS-PLATFORM PACKAGING
 
-### 4.1 Windows (PowerShell — existing)
+### 4.1 Windows (PowerShell -- existing)
 
 ```powershell
 # package.ps1 (already working)
 .\package.ps1 -Version "0.49.8" -Sign -CertificateThumbprint "A1B2C3..."
-# → release/xiom-v0.49.8-windows-x64.zip
+# -> release/xiom-v0.49.8-windows-x64.zip
 ```
 
 ### 4.2 macOS / Linux (Bash)
@@ -390,7 +390,7 @@ tar -czf "release/xiom-v${VERSION}-$(uname -s)-$(uname -m).tar.gz" -C release "x
 ```ruby
 # xiom-lang/homebrew-xiom/Formula/xiom.rb
 class Xiom < Formula
-  desc "XIOM Compiler — systems programming language"
+  desc "XIOM Compiler -- systems programming language"
   homepage "https://xiom-lang.org"
   url "https://registry.xiom-lang.org/xiom-v#{version}-macOS-arm64.tar.gz"
   sha256 "..."
@@ -438,9 +438,9 @@ Add this token to GitHub Organization Secrets as `REGISTRY_TOKEN`.
 
 ### Phase 1: Foundation (Day 1)
 - [ ] Create `xiom-language` GitHub organization
-- [ ] Create repo: `xiom-lang/xiom` — push compiler + crates
-- [ ] Create repo: `xiom-lang/stdlib` — push stdlib
-- [ ] Create repo: `xiom-lang/docs` — push docs + website
+- [ ] Create repo: `xiom-lang/xiom` -- push compiler + crates
+- [ ] Create repo: `xiom-lang/stdlib` -- push stdlib
+- [ ] Create repo: `xiom-lang/docs` -- push docs + website
 - [ ] Set up `xiom-lang/xiom` CI/CD (build + test)
 - [ ] Configure registry.xiom-lang.org on VPS
 - [ ] Test registry index.json serving

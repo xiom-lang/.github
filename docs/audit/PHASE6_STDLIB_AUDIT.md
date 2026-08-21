@@ -1,4 +1,4 @@
-# XIOM Phase 6 — Standard Library Audit Report
+# XIOM Phase 6 -- Standard Library Audit Report
 
 **Date:** 2026-07-20 | **Version:** 0.1.0 | **Modules:** 41 | **Total LOC:** 11,974 XIOM + 4,085 C/ASM
 
@@ -21,7 +21,7 @@
 
 ## CATEGORIZATION
 
-### PRODUCTION-READY (6/41 = 15%) — Rating 7.0+
+### PRODUCTION-READY (6/41 = 15%) -- Rating 7.0+
 | Module | Rating | Notes |
 |--------|--------|-------|
 | **time.xi** | 7.8 | Duration/Instant/DateTime, complete calendar math |
@@ -31,7 +31,7 @@
 | **sync.xi** | 7.5 | Mutex/RwLock/Condvar/Arc/Barrier/Atomic, robust |
 | **io.xi** | 7.0 | File/console I/O, Read/Write/Seek traits, contracted |
 
-### PARTIAL (25/41 = 61%) — Rating 4.5-7.0
+### PARTIAL (25/41 = 61%) -- Rating 4.5-7.0
 | Module | Rating | Top Gaps |
 |--------|--------|----------|
 | **core.xi** | 7.2 | Missing Rc/Arc in core, no Result.unwrap |
@@ -60,7 +60,7 @@
 | **simd.xi** | 4.0 | Memory leak on every op, only Vec4f wired |
 | **bench.xi** | 4.8 | No auto-calibration, no regression compare |
 
-### STUB (10/41 = 24%) — Rating <4.5
+### STUB (10/41 = 24%) -- Rating <4.5
 | Module | Rating | What's Missing |
 |--------|--------|---------------|
 | **reflect.xi** | 3.8 | Generic queries return "unknown", no Any impl |
@@ -76,27 +76,27 @@
 
 ## CRITICAL BUGS
 
-### 1. compress.xi — ALL compressors use RLE
+### 1. compress.xi -- ALL compressors use RLE
 **Impact:** gzip/brotli/zlib output is RLE-only wrapped in correct format headers. Decompresses correctly but no actual compression.
 **Fix:** Implement real DEFLATE (LZ77 + Huffman) or use FFI bindings to zlib.
 
-### 2. simd.xi — Memory leak on every vector operation
+### 2. simd.xi -- Memory leak on every vector operation
 **Impact:** `Vec4f.add` etc. allocate 16 bytes every call via `ffi.alloc(16)` and NEVER free.
 **Fix:** Track allocation lifetime or use stack-allocated vectors.
 
-### 3. path.xi — PathBuf mutation lost
-**Impact:** `PathBuf.push/pop` mutate `self` by value — changes invisible to caller.
+### 3. path.xi -- PathBuf mutation lost
+**Impact:** `PathBuf.push/pop` mutate `self` by value -- changes invisible to caller.
 **Fix:** Use `&mut self` receiver.
 
-### 4. iter.xi — Iterator state mutation lost
+### 4. iter.xi -- Iterator state mutation lost
 **Impact:** `Range.next` and adapter `next` methods mutate `self` by value. Iteration may not progress.
 **Fix:** Use `&mut self` receiver.
 
-### 5. cell.xi — Ref/RefMut don't restore borrow counts
+### 5. cell.xi -- Ref/RefMut don't restore borrow counts
 **Impact:** After a `Ref` goes out of scope, the RefCell remains permanently borrowed.
 **Fix:** Implement proper Drop or use manual decrement on scope exit.
 
-### 6. crypto.xi — AES-NI never called
+### 6. crypto.xi -- AES-NI never called
 **Impact:** `aes_encrypt` AES-NI branch and software branch are IDENTICAL. Hardware acceleration never engaged.
 **Fix:** Call `xiom_aesni_encrypt_block` FFI in AES-NI branch.
 
@@ -105,16 +105,16 @@
 ## TOP PRIORITY IMPROVEMENTS
 
 ### Sprint 1: Contract Coverage (3-5 days)
-- **Target:** 18% → 50%+ pub functions with contracts
+- **Target:** 18% -> 50%+ pub functions with contracts
 - **Modules:** collections.xi (all Vec/Map methods), core.xi (Option/Result), string.xi, io.xi
-- **Contracts are XIOM's killer feature** — every public function should have requires/ensures
+- **Contracts are XIOM's killer feature** -- every public function should have requires/ensures
 
 ### Sprint 2: Fix Critical Bugs (3-5 days)
-1. Fix `cell.xi` — Ref/RefMut borrow restoration
-2. Fix `path.xi` — PathBuf mutation receivers
-3. Fix `iter.xi` — Iterator mutation receivers
-4. Fix `simd.xi` — Memory leak
-5. Fix `crypto.xi` — AES-NI engagement
+1. Fix `cell.xi` -- Ref/RefMut borrow restoration
+2. Fix `path.xi` -- PathBuf mutation receivers
+3. Fix `iter.xi` -- Iterator mutation receivers
+4. Fix `simd.xi` -- Memory leak
+5. Fix `crypto.xi` -- AES-NI engagement
 
 ### Sprint 3: Complete Collections (5-7 days)
 - HashMap (hash-based, not linear-probe Vec)
@@ -138,12 +138,12 @@
 - Complete regex.xi (alternation, groups, {n,m})
 
 ### Sprint 6: Missing Stdlib Modules
-- **json.xi** — Dedicated JSON module (currently in serialize.xi)
-- **http.xi** — HTTP server + client (currently minimal in net.xi)
-- **fs.xi** — Filesystem operations (currently in io.xi + os.xi)
-- **process.xi** — Process spawning (currently in os.xi)
-- **tls.xi** — TLS/SSL support
-- **task.xi** — Task/future combinators (currently in async.xi)
+- **json.xi** -- Dedicated JSON module (currently in serialize.xi)
+- **http.xi** -- HTTP server + client (currently minimal in net.xi)
+- **fs.xi** -- Filesystem operations (currently in io.xi + os.xi)
+- **process.xi** -- Process spawning (currently in os.xi)
+- **tls.xi** -- TLS/SSL support
+- **task.xi** -- Task/future combinators (currently in async.xi)
 
 ---
 
@@ -163,14 +163,14 @@
 ## RATING DISTRIBUTION
 
 ```
-10 ▓
- 9 ▓
- 8 ▓▓  (time, encoding)
- 7 ▓▓▓▓▓▓▓▓ (char, string, sync, io, core, math, num, mem, env, cmp, ptr)
- 6 ▓▓▓▓▓▓ (cell, async, net, iter, rand, serialize, os, alloc)
- 5 ▓▓▓▓▓▓▓▓▓ (collections, log, regex, crypto, path, thread, hash, convert, array)
- 4 ▓▓▓ (compress, reflect, contracts, rc, fmt, simd, bench)
- 3 ▓▓ (error, ffi)
- 2 ▓
- 1 ▓
+10 .
+ 9 .
+ 8 ..  (time, encoding)
+ 7 ........ (char, string, sync, io, core, math, num, mem, env, cmp, ptr)
+ 6 ...... (cell, async, net, iter, rand, serialize, os, alloc)
+ 5 ......... (collections, log, regex, crypto, path, thread, hash, convert, array)
+ 4 ... (compress, reflect, contracts, rc, fmt, simd, bench)
+ 3 .. (error, ffi)
+ 2 .
+ 1 .
 ```

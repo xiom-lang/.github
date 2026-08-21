@@ -1,4 +1,4 @@
-# Phase 8 Preflight Audit — Production Readiness Assessment
+# Phase 8 Preflight Audit -- Production Readiness Assessment
 
 **Date:** 2026-07-21  
 **Audit Scope:** 16 compiler crates + 40 stdlib modules + 10 tooling binaries + 5 ecosystem samples  
@@ -7,7 +7,7 @@
 
 ---
 
-## 1. COMPILER CRATES — 16 Crates
+## 1. COMPILER CRATES -- 16 Crates
 
 | Crate | Rating | LOC | Tests | Unsafe | Unwrap | Exit | Risk |
 |-------|--------|-----|-------|--------|--------|------|------|
@@ -33,14 +33,14 @@
 | # | Issue | Impact | Fix Effort |
 |---|-------|--------|------------|
 | 1 | **God objects**: IrEmitter (61 fields), CompileConfig (25+ fields) | Testing, refactoring, parallelism | 2-3 weeks |
-| 2 | **282 unwraps** across project → user-facing crashes | Reliability | 1-2 weeks |
-| 3 | **57 process::exit** in library code → unembeddable | Reusability | 3-5 days |
+| 2 | **282 unwraps** across project -> user-facing crashes | Reliability | 1-2 weeks |
+| 3 | **57 process::exit** in library code -> unembeddable | Reusability | 3-5 days |
 | 4 | **Missing tests**: xiom (3), xiom-lsp (11), xiom-ast (0) | Regression risk | 1 week |
 | 5 | **Monolithic files**: expr.rs (5,323), LSP main.rs (2,628) | Maintainability | 1-2 weeks |
 
 ---
 
-## 2. STANDARD LIBRARY — 40 Modules
+## 2. STANDARD LIBRARY -- 40 Modules
 
 | Tier | Count | Modules |
 |------|-------|---------|
@@ -58,11 +58,11 @@
 | 4 | `Cow<T>`, `PhantomData<T>`, `MaybeUninit<T>` | Med |
 | 5 | `Path`/`PathBuf` (skeleton, needs implementation) | Med |
 
-**Overall: B+ (85%)** — Strong Phase 1 stdlib. 50% of modules need contracts.
+**Overall: B+ (85%)** -- Strong Phase 1 stdlib. 50% of modules need contracts.
 
 ---
 
-## 3. TOOLING BINARIES — 10 Tools
+## 3. TOOLING BINARIES -- 10 Tools
 
 | # | Tool | Rating | Critical Gap |
 |---|------|--------|--------------|
@@ -75,19 +75,19 @@
 | A7 | **xiom-mcp** | **93/100 (A)** | Best tooling binary |
 | A8 | xiom-dbg | **85/100 (A-)** | Needs integration tests |
 | A9 | xiom-verify | **83/100 (B+)** | Missing --help, --version |
-| A10 | xiom-display | **45/100 (D)** | **Imported by ZERO crates** — DRY violation |
+| A10 | xiom-display | **45/100 (D)** | **Imported by ZERO crates** -- DRY violation |
 
 ### Top 3 Tooling Gaps
 
 | # | Issue | Impact |
 |---|-------|--------|
 | 1 | 5 tools missing --version flag | CLI standards compliance |
-| 2 | xiom-display unused → duplicated code in LSP + doc | DRY violation |
+| 2 | xiom-display unused -> duplicated code in LSP + doc | DRY violation |
 | 3 | xiom-lsp has zero tests (2628 lines) | Highest-risk gap |
 
 ---
 
-## 4. ECOSYSTEM PACKAGES — 75 Total (5 Sampled)
+## 4. ECOSYSTEM PACKAGES -- 75 Total (5 Sampled)
 
 | Package | Rating | Key Finding |
 |---------|--------|-------------|
@@ -95,7 +95,7 @@
 | xiom-vulkan | **88/100 (A-)** | 755 extern fns, excellent contracts |
 | xiom-imgui | **85/100 (A-)** | State-tracking contracts, missing package.xi |
 | xiom-glfw | **82/100 (B+)** | Clean bridge pattern |
-| xiom-redis | **40/100 (D)** | **STUB** — all 21 fns return errors |
+| xiom-redis | **40/100 (D)** | **STUB** -- all 21 fns return errors |
 
 ### Top 3 Ecosystem Gaps
 
@@ -107,11 +107,11 @@
 
 ---
 
-## 5. PHASE 8B — Preflight Hardening (BEFORE Debugger Pro)
+## 5. PHASE 8B -- Preflight Hardening (BEFORE Debugger Pro)
 
 Based on audit findings, these fixes must ship before 8C:
 
-### Sprint M1 — Quick Wins (1-2 days)
+### Sprint M1 -- Quick Wins (1-2 days)
 
 | # | Fix | Effort | Crate |
 |---|-----|--------|-------|
@@ -120,7 +120,7 @@ Based on audit findings, these fixes must ship before 8C:
 | M1.3 | Integrate xiom-display into xiom-lsp (remove duplicates) | 0.5d | lsp |
 | M1.4 | Integrate xiom-display into xiom-doc (remove duplicates) | 0.5d | doc |
 
-### Sprint M2 — Stdlib Contracts (2-3 days)
+### Sprint M2 -- Stdlib Contracts (2-3 days)
 
 | # | Fix | Effort | Module |
 |---|-----|--------|--------|
@@ -129,7 +129,7 @@ Based on audit findings, these fixes must ship before 8C:
 | M2.3 | Add `From`/`Into` traits to core.xi | 0.5d | core |
 | M2.4 | Add `Duration` type to time.xi | 0.5d | time |
 
-### Sprint M3 — Test Coverage (2-3 days)
+### Sprint M3 -- Test Coverage (2-3 days)
 
 | # | Fix | Effort | Crate |
 |---|-----|--------|-------|
@@ -138,7 +138,7 @@ Based on audit findings, these fixes must ship before 8C:
 | M3.3 | Add AST serialization round-trip tests | 0.5d | ast |
 | M3.4 | Verify 881 baseline + add regression tests | 0.5d | codegen |
 
-### Sprint M4 — Code Health (P2, after 8C)
+### Sprint M4 -- Code Health (P2, after 8C)
 
 | # | Fix | Effort | Crate |
 |---|-----|--------|-------|
@@ -157,4 +157,4 @@ Based on audit findings, these fixes must ship before 8C:
 | Tooling Binaries | 10 tools | **B (78%)** | Needs --version + DRY fix (M1) |
 | Ecosystem Packages | 75 total | **B (77%)** | Needs tests + xiom-redis fix |
 
-**Foundation Readiness: B (82%)** — Ready for Debugger Pro after M1+M2 sprints.
+**Foundation Readiness: B (82%)** -- Ready for Debugger Pro after M1+M2 sprints.

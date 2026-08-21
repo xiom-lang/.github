@@ -1,7 +1,7 @@
 # XIOM Naming Conventions
 
 Frozen at v0.46.0. Change requires a compiler team RFC.
-(5c-R: cheap now, brutal to retrofit — rustc lesson from `library/core/src/option.rs`)
+(5c-R: cheap now, brutal to retrofit -- rustc lesson from `library/core/src/option.rs`)
 
 ## 1. Function Naming Grammar
 
@@ -76,9 +76,9 @@ Functions whose return value should not be silently discarded:
 ## 8. Error Codes
 
 Reserved blocks:
-- `X0000–X0099`: Parser diagnostics
-- `X0100–X0199`: Checker diagnostics
-- `X0200–X0299`: Borrow checker
-- `X7000–X7999`: Contract diagnostics
+- `X0000-X0099`: Parser diagnostics
+- `X0100-X0199`: Checker diagnostics
+- `X0200-X0299`: Borrow checker
+- `X7000-X7999`: Contract diagnostics
 
 See [docs/error_codes/README.md](./error_codes/README.md) for the full registry.

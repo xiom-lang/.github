@@ -1,6 +1,6 @@
-# XIOM — Releases
+# XIOM -- Releases
 
-## v0.48.5 "Phoenix" — 2026-07-20
+## v0.48.5 "Phoenix" -- 2026-07-20
 
 **768/768 tests. 49/49 gaps closed. Z3 verification. Loop invariants. 5e Advanced Compilation complete.**
 
@@ -14,23 +14,23 @@
 
 **5f Z3 Contract Verification**
 - **Body encoding:** SSA lowering with `declare-const` + `assert` per let/return
-- **Correct type map:** `Int32`→`BV(32)`, `Float64`→`FloatingPoint(11,53)`, `Bool`→`Bool`
-- **Side-condition VCs:** Div-by-zero (`X7004`), overflow, bounds, null — as named asserts
+- **Correct type map:** `Int32`->`BV(32)`, `Float64`->`FloatingPoint(11,53)`, `Bool`->`Bool`
+- **Side-condition VCs:** Div-by-zero (`X7004`), overflow, bounds, null -- as named asserts
 - **Contract composition:** Uninterpreted functions + contract axioms for modular verification
 - **Loop invariants:** `while cond invariant: expr { ... }` syntax + VC generation (`X7006`)
-- **z3 auto-detection:** `Z3_PATH` env, common paths, PATH — graceful fallback
+- **z3 auto-detection:** `Z3_PATH` env, common paths, PATH -- graceful fallback
 - **Counterexample extraction:** Model parsing for z3 4.13.4 raw `(` format
 - **15 verifier tests:** SMT generation + z3 integration + parser unit tests
 
 **Runtime Safety (compiler-inserted)**
-- Division by zero → `div_zero_trap` with `llvm.trap()`
-- Recursion depth → `xiom_recursion_counter` with `llvm.trap()`
-- Vec bounds checks → `icmp sge/slt` + conditional branch
+- Division by zero -> `div_zero_trap` with `llvm.trap()`
+- Recursion depth -> `xiom_recursion_counter` with `llvm.trap()`
+- Vec bounds checks -> `icmp sge/slt` + conditional branch
 
 **Compiler Hardening**
 - **RC failure FIXED (3 bugs):** `size_of` nested generic args, `Expr::As` pointer-to-pointer cast, `Layout.new` cross-module resolution
 - **CG-02 Float32 global init:** 17-digit scientific notation for exact f32 roundtrip
-- **CG-01 Float Vec reads:** Verified fixed (5c.29 — `bitcast` instead of `sitofp`)
+- **CG-01 Float Vec reads:** Verified fixed (5c.29 -- `bitcast` instead of `sitofp`)
 - **G-20 bare-field reads:** `type_meta` fallback for catalog-loaded struct fields
 - **Benchmark suite:** All 30 modules compile, bare-field reads auto-handled via `type_meta`
 - **Stdlib freeze FIXED:** Grandparent `source_dir` guard prevents scanning system directories
@@ -66,17 +66,17 @@
 |----------|--------|------|
 | Windows x64 | `target/release/xiom.exe` | 3.7 MB |
 
-### What's New (5c.29–5c.30 Production Hardening)
-- **Deterministic builds** — same IR → byte-identical binary (fixed `.ll` name + `/Brepro`)
-- **Container-handle convention** — `Vec[T]` fields use heap-boxed handles (no more stack corruption / ACCESS_VIOLATION)
-- **Real element widths** — 1/2/4/8-byte stores for `Vec[Float32]`, `Vec[Int32]`, etc.
-- **Method ABI aligned** — ecosystem-style methods (`fn T.method(h: &T, ...)`) no longer shift arguments
-- **Inline Vec.insert / Vec.remove** — llvm.memmove builtins
-- **Enum payload conventions** — per-variant types preserved, float payloads use raw bits
-- **Vec-of-struct element typing** — `Vec[Point2D].push()` / `.pop()` / `.get()` with correct layout sizes
-- **Implicit-self method calls (G-10)** — `init()` inside `fn GrpcClient.init()` resolves to `self.init()`
-- **Int → unsigned coercion (G-04)** — `var x: UInt8 = 255` type-checks
-- **String concatenation** — `a + b` emits `@xiom_str_concat`
+### What's New (5c.29-5c.30 Production Hardening)
+- **Deterministic builds** -- same IR -> byte-identical binary (fixed `.ll` name + `/Brepro`)
+- **Container-handle convention** -- `Vec[T]` fields use heap-boxed handles (no more stack corruption / ACCESS_VIOLATION)
+- **Real element widths** -- 1/2/4/8-byte stores for `Vec[Float32]`, `Vec[Int32]`, etc.
+- **Method ABI aligned** -- ecosystem-style methods (`fn T.method(h: &T, ...)`) no longer shift arguments
+- **Inline Vec.insert / Vec.remove** -- llvm.memmove builtins
+- **Enum payload conventions** -- per-variant types preserved, float payloads use raw bits
+- **Vec-of-struct element typing** -- `Vec[Point2D].push()` / `.pop()` / `.get()` with correct layout sizes
+- **Implicit-self method calls (G-10)** -- `init()` inside `fn GrpcClient.init()` resolves to `self.init()`
+- **Int -> unsigned coercion (G-04)** -- `var x: UInt8 = 255` type-checks
+- **String concatenation** -- `a + b` emits `@xiom_str_concat`
 
 ### Status
 | Gate | Result |
@@ -122,7 +122,7 @@ ab588e2 fix(xiom): 5c.29 deterministic builds
 
 ---
 
-## v0.12.0 "Production" — 2026-07-01
+## v0.12.0 "Production" -- 2026-07-01
 
 **234 tests. Self-hosted compiler at 90%+ coverage. Full toolchain.**
 
@@ -157,18 +157,18 @@ dist\install.bat
 cargo build --release -p xiom
 ```
 
-## v0.51.0 "Production Hardening" — 2026-07-25
+## v0.51.0 "Production Hardening" -- 2026-07-25
 
-**1041/1041 tests (681 compiler + 360 tooling). M1–M12 complete. P0+P1 closed. M14.3–M14.7 done.**
+**1041/1041 tests (681 compiler + 360 tooling). M1-M12 complete. P0+P1 closed. M14.3-M14.7 done.**
 
 ### Key Features Delivered
 
 **Language & Runtime**
-- `Str.slice(start, end)` / `Str.starts_with(prefix)` / `Str.ends_with(suffix)` — scripting ergonomics
+- `Str.slice(start, end)` / `Str.starts_with(prefix)` / `Str.ends_with(suffix)` -- scripting ergonomics
 - Iterator adapter parity: `step_by`, `take_while`, `skip_while`, `inspect` (23 total)
 - `--check` auto-detects script-like files and applies implicit main (G4 resolved)
 - Parser-level multi-line declaration detection for scripting mode (M12.2)
-- `io.read_line()` fixed — no longer returns Result (module export map key collision fix)
+- `io.read_line()` fixed -- no longer returns Result (module export map key collision fix)
 
 **Formatter (M8)**
 - `extern` blocks now round-trip correctly (previously silently dropped)
@@ -176,11 +176,11 @@ cargo build --release -p xiom
 - 44/44 formatter tests (3 new round-trip tests)
 
 **Package Manager (M6)**
-- `xiom pkg publish` — creates tarball + multipart upload to registry
+- `xiom pkg publish` -- creates tarball + multipart upload to registry
 - `xiom pkg publish` previously only sent metadata; now uploads actual package
 
 **LSP (M3.3)**
-- Rename and codeAction tests added (11→15 tests)
+- Rename and codeAction tests added (11->15 tests)
 
 **Quality (M14)**
 - 6 dead code items removed (~239 lines across 5 crates)
@@ -191,8 +191,8 @@ cargo build --release -p xiom
 - Rustdoc comments for Checker, BorrowChecker, CheckedType, FnSig, CheckError
 
 **Documentation (M14.5)**
-- New: `docs/language/reference.md` — complete language reference (350+ lines)
-- New: `docs/language/pattern-matching.md` — match, if let, while let, ? operator
+- New: `docs/language/reference.md` -- complete language reference (350+ lines)
+- New: `docs/language/pattern-matching.md` -- match, if let, while let, ? operator
 - RELEASE_PROCESS.md updated for v0.51.0
 
 **Stdlib Contracts (M2)**
@@ -200,21 +200,21 @@ cargo build --release -p xiom
 
 ---
 
-## v0.50.0 "Production Edition" — 2026-07-24
+## v0.50.0 "Production Edition" -- 2026-07-24
 
 **1039/1039 tests. Scripting mode, JIT, REPL. 40-module stdlib.**
 
 ### Key Features
 
 - **Scripting mode:** `xiom run`, `xiom --standalone`, `xiom repl`, `--watch`, shebang (`#!/usr/bin/env xiom`)
-- **True JIT compilation** via libloading — scripts compile to shared library and execute in-process
+- **True JIT compilation** via libloading -- scripts compile to shared library and execute in-process
 - **49 scripting/diff tests**
 - Implicit main wrapping for script-like files
 - String concatenation operator `+` for scripting ergonomics
 
 ---
 
-## v0.49.0 "Expansion" — 2026-07-22
+## v0.49.0 "Expansion" -- 2026-07-22
 
 **900+ tests. Z3 verification. Loop invariants. 5e Advanced Compilation.**
 
