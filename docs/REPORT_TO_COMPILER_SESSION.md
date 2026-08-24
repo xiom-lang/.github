@@ -29,13 +29,72 @@ stdlib session". Not received yet. Needed before we realign more array-family
 smokes: M33 let->Vec conversion vs &[N]T array-module fns currently forces
 per-smoke guesswork (VAR literals everywhere as workaround).
 
-## 3. Round-15 full sweep results
+## 3. Round-15 full sweep results (isolated binary, committed HEAD 81ed009a)
 
-First full sweep on an isolated round-15 binary built from committed HEAD
-(81ed009a) in a temp worktree (your working tree held uncommitted crates/
-changes tonight, so the shared binary was unusable for attribution).
-Results: see section appended at the end of this file after completion --
-preliminary runs were 692/692 PASS through the first ~75%.
+**874/907 PASS** (corrected classification -- see method note). The 33
+failures map EXACTLY onto your known clusters: CRT-layout AVs (array_slice,
+array_sort_by, convert_url, core_box, iter_collect, regex_find,
+regex_match_count, gzip_large*), illegal-instruction family (math_edge,
+argon2, pbkdf2 x2 -- SIMD flags), stack cookie (io_bufreader), heap layer
+(json_nested x3 + jsonvalue_get), geom RUNFAILs (57/4/18 verbatim),
+clang-variant compile fails x11 (ptr_offset/io_copy x2/read_int_float/
+hash_values/convert_escape/regex_captures x4/array_zip T001).
+
+METHOD NOTE (important): the --run driver exits 0 even when the child
+crashes; the child's real status is ONLY the printed "exit code:" stderr
+line. A naive $LASTEXITCODE sweep reports a false 907/907. Sweep tooling:
+%TEMP%\kilo\stdlib_campaign\{sweep_worker.ps1,reclassify.ps1}.
+
+NEW failures not in any prior catalog (* above):
+1. **smoke_stress_compress_gzip_large** -- AV in compress.gzip_compress for
+   input >= 4096 bytes exactly (4095 OK, 4096 AV; per-process bisect probes
+   gz_*.xi). Related: deflate.deflate_compress returns an EMPTY Vec at every
+   input size probed (100/4095/4096) while lz77/huffman pass standalone --
+   smells like another mono/codegen return-path bug, needs joint look.
+2. **smoke_log / smoke_os_ffi** -- environment drift only (hardcoded
+   Temp/kilo/agent_* dirs); fixed stdlib-side by relative paths.
+
+## 3b. New compiler defects found by the KAT campaign (with probes)
+
+All repro probes live in %TEMP%\kilo\stdlib_campaign\probes\.
+
+1. **Cross-module miscompile into module fns with unsafe+extern+Vec shapes**
+   -- calling the new crypto.os_secure_random_bytes from another module AVs
+   deterministically; the IDENTICAL body as a same-file fn passes
+   (p_replica_srb vs probe_entropy2). Blocks flipping secure_random_bytes to
+   OS entropy (currently kept on legacy PRNG = KNOWN SECURITY GAP).
+2. **Multi-call + result-compare shapes break on HEAD too** -- two
+   secure_random_bytes calls + element compares = AV; + hex compares =
+   STATUS_BREAKPOINT (0x80000003); single call fine (probe_entropy2).
+3. **UInt8 -> Int explicit cast miscompiles** (narrow-zext family): OOB
+   byte_at compared via cast reads garbage; implicit widen in arg position is
+   correct (probe_byte_at_oob vs smoke_string_bytecopy_locks check 11).
+4. **xiom_byte_at builtin bound check is state-dependent** -- OOB read
+   returns adjacent-heap byte after prior slice/case ops (116='t'), 0 in
+   isolation (probe_byte_at_context). Info-leak class.
+5. **Generic-method prefix-call form garbles receiver** --
+   `Rc.clone(&r)`/`Rc.get(&r)` via use xiom.memory.rc return pointer-sized
+   garbage; method-call form `r.clone()` on module xiom.rc (same file,
+   memory/rc.xi!) is correct (probe_rc_counts). Also: file lives at
+   memory/rc.xi but declares `module xiom.rc` (audit 5.4 violation).
+6. **sha224 marshalling corruption (worked around in C)** -- stores through
+   malloc'd buffer slot [i*4+0] read back as 1566 instead of 216 inside
+   unsafe blocks (probe_sha224_replica dumps). sha224/sha384/sha512 are now
+   C-backed one-shots (xiom_sha224_hash/xiom_sha384_hash/xiom_sha512_hash
+   added to runtime); kat_crypto_sha2 locks all NIST vectors green.
+7. **Silent arity mismatch corroborated** -- a 5-arg call to the 6-param
+   chacha20_poly1305_decrypt compiled and misbound (your audit item
+   "arity check on module-prefix calls"); found while writing KATs.
+
+## 3c. Stdlib-side defects found (our queue, FYI)
+
+- ChaCha20-Poly1305 tags deviate from RFC 8439 despite byte-exact
+  ciphertext (keystream right, Poly1305 layer wrong); self-roundtrip is
+  consistent => NOT interoperable with standard implementations. Focused
+  session queued against the RFC text (kat_crypto_chacha20poly1305 gates
+  the exact-tag assert).
+- base64url_encode partial-group NUL one-past-malloc overflow: FIXED
+  (encoding/base64.xi), locked by kat_encoding_base64_rfc4648.
 
 ## 4. FYI -- stdlib tree changes landing this campaign
 
