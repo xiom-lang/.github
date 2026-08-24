@@ -88,13 +88,52 @@ All repro probes live in %TEMP%\kilo\stdlib_campaign\probes\.
 
 ## 3c. Stdlib-side defects found (our queue, FYI)
 
-- ChaCha20-Poly1305 tags deviate from RFC 8439 despite byte-exact
-  ciphertext (keystream right, Poly1305 layer wrong); self-roundtrip is
-  consistent => NOT interoperable with standard implementations. Focused
-  session queued against the RFC text (kat_crypto_chacha20poly1305 gates
-  the exact-tag assert).
+- ~~ChaCha20-Poly1305 tags deviate from RFC 8439~~ **RESOLVED 2026-08-25**:
+  two poly1305.xi engine bugs -- _finalize serialized base-2^26 limbs at
+  byte offsets ignoring intra-byte bit alignment, and _bytes_to_limbs limb4
+  masked 22 of 24 bits (dropping bits 126-127 of s and message blocks).
+  RFC 8439 2.8.2 vector now matches byte-exact on ct AND tag; roundtrip +
+  tamper rejection green. KAT un-gated.
+- ~~gzip >= 4096 AV~~ **RESOLVED 2026-08-25**: root cause was NOT deflate --
+  the lazily-initialized module-level [256]UInt crc table (see 3b-new #8)
+  overflowed its undersized backing at init and returned all-zero reads;
+  replaced with bitwise no-table crc32, values now match zlib exactly.
+  smoke_stress_compress_gzip_large roundtrip green again.
 - base64url_encode partial-group NUL one-past-malloc overflow: FIXED
   (encoding/base64.xi), locked by kat_encoding_base64_rfc4648.
+
+## 3b-2. MORE compiler bugs found while fixing the above (2026-08-25)
+
+8. **Module-level arrays are mis-materialized** (the "const arrays only
+   length+first element" family, now confirmed for VAR arrays too): a
+   module-level `[256]UInt` crc table reads back ALL ZEROS after init
+   writes, and its backing store is undersized -- init overflows the heap,
+   AVing when the caller's Vec allocations land near page boundaries
+   (>= 4096-byte inputs; probes p_crc_local/p_crc_idx/crc_*.xi). Two
+   [128]Int arrays survive where one [256]Int does not. This is latent in
+   ANY module using module-level arrays; grep before relying on them.
+9. **First parameter named `self` makes a fn a METHOD; cross-module PREFIX
+   calls cannot reach methods** ("cannot call 'X' on this expression").
+   Same signature renamed to a non-self first param resolves fine
+   (string/string.xi t_d experiment vs string/builder.xi sb_push_str).
+10. **Cross-module fns taking a module-defined STRUCT param fail
+    resolution entirely** ("undefined variable 'f'"), by value or by ref --
+    while identical signatures taking Vec/Str/primitives work. Forces
+    APIs to ship as bare Vec wrappers (StringBuilder case).
+11. **Bare-name injection is inconsistent across shapes**: paramless fns
+    inject as callable names; same-module fns with params may inject or not
+    depending on param types (arc_get works; sb_len did not until shape
+    changed). Alias imports (`use x.y as z;`) + prefix calls fail where
+    plain `use x.y;` + prefix works (smoke_string_builder history).
+12. **Bare-name calls can bind to the WRONG overload across modules**:
+    `deflate_compress(&v)` with `use xiom.compress.deflate;` returned an
+    empty Vec; qualified `deflate.deflate_compress(&v)` returns correct
+    data (probes probe_deflate2 vs earlier). Corroborates your silent-
+    arity/overload item.
+
+Stdlib workarounds applied where proven shapes exist; items 9-11 constrain
+API design (no method-syntax structs, no wrapper structs cross-module)
+until fixed.
 
 ## 4. FYI -- stdlib tree changes landing this campaign
 
