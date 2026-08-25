@@ -165,3 +165,21 @@ until fixed.
 | delegation crash | MISSING FROM PLAN | entire dedup program |
 
 Rule respected: none of these worked around in stdlib code.
+
+## 3b-3. Night-session addition (2026-08-25 ~04:00)
+
+13. **Str-to-pointer cast + memcpy combination corrupts chained concats**:
+    routing str_concat through `xiom_memcpy_dispatch(buf, a as *UInt8,
+    len)` compiles, links, and passes DIRECT concat length checks -- but
+    reassignment chains (b = str_concat(b, "y") in a loop) produce wrong
+    result lengths from the 3rd link onward. Pristine HEAD byte_at loops
+    pass identical chains. Either the Str->ptr cast yields a stale/aliased
+    pointer under self-referential reassignment, or dispatch interacts
+    badly with freshly adopted buffers. Probes: p_concat_lens2, cl_*.xi
+    (per-length per-process). Stdlib reverted to byte loops; memop routing
+    re-lands after your diagnosis.
+
+Also note: runtime-enforced contracts are ACTIVE on the round-15 binary
+(ensures clauses abort with exit 1 + "contract violated" message) -- first
+observed via str_concat's own length ensure catching this bug. Useful
+signal for sweeps; contract messages reference the ensure's source line.
