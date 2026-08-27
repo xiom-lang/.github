@@ -183,3 +183,50 @@ Also note: runtime-enforced contracts are ACTIVE on the round-15 binary
 (ensures clauses abort with exit 1 + "contract violated" message) -- first
 observed via str_concat's own length ensure catching this bug. Useful
 signal for sweeps; contract messages reference the ensure's source line.
+
+## 3b-4. Round-17 verification + two new findings (2026-08-27)
+
+### Round-17 delta (stdlib side, re-verified on isolated binary)
+- FIXED: kdf multi-call cluster (kat_crypto_kdf_rfc5869 green, un-gated);
+  Rc prefix-call receiver reads (probe_rc_counts green); geom QUAT
+  (smoke_geom_quat green).
+- PARTIAL: byte_at contextual OOB (probe_byte_at_context green; the
+  longer case+slicing preamble in smoke_string_bytecopy_locks still reads
+  adjacent bytes -- the contextual assert stays gated).
+- NOT fixed (stay parked): OS-entropy multi-draw shapes STILL breakpoint
+  (new probe p_os_direct17 -- earlier probe_entropy2 had been exercising
+  the LEGACY path; the entropy flip was reverted same-day); Str-cast
+  memcpy chained concat (cl_5 on r17 tested the byte-loop path -- the
+  memcpy re-land was attempted, broke smoke_string_case/curves again, and
+  was reverted again); module-level [256] arrays (p_crc_int2 still AVs);
+  array_zip T001; json heap layer; CRT-layout AVs; SIMD illegal-instruction.
+- NEW REGRESSION: smoke_geom_vec + smoke_geom_mat now fail at COMPILE with
+  an LLVM IR type mismatch ("%tmp defined with type i64 but expected
+  %struct.Vec") -- the BUG 57 fix changed the failure mode from runtime
+  garbage to codegen error in these two shapes. Needs your follow-up.
+- Full sweep on r17: 887/927 PASS (corpus grew to 927 with the new KATs).
+
+### 15. Unparenthesized `expr as Type` casts miscompile to ILLEGAL INSTRUCTION
+`out.push(len % 256 as UInt8)` (cast applied to a binary expression
+without parens) produces 0xC000001D at runtime; splitting into
+`var m = len % 256;` + `push(m as UInt8)` is fine, and parenthesized
+`(len % 256) as UInt8` is fine (the whole stdlib already uses parens --
+this only bit new code). Probes p_mini_d/p_v1-v5. Compiler-side parse/
+precedence fix wanted; the stdlib avoids the unparenthesized form.
+
+### 16. Nested &mut Vec pushes can LOSE THE FINAL BYTE
+A Vec built entirely through a helper taking &mut Vec (bit-writer
+flush) reported len N inside the callee but returned N-1 at the caller
+-- the last pushed byte vanished across the return. Workaround: the
+final flush pushes happen in the same frame that returns the Vec.
+Probes p_deflate_dbg4-6. This is the same family as BUG 34
+(nested Vec writes via &mut).
+
+### Stdlib replacement shipped (FYI)
+compress/deflate.xi now implements REAL RFC 1951 (stored + fixed
+producer; stored+fixed+dynamic consumer) with caps; gzip/zlib wrappers
+were already RFC 1952/1950-shaped, so the whole stack now emits
+INTEROPERABLE streams. Verified: python zlib streams decode byte-exact
+(kat_compress_rfc1952 embeds 9), xiom output decompresses in python
+gzip, producer byte-exact vs python for shared inputs. The old custom
+container is gone (pre-1.0 break, no shims).
