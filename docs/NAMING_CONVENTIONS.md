@@ -51,7 +51,7 @@ Frozen at v0.46.0. Change requires a compiler team RFC.
 | Convention | Example |
 |----------|---------|
 | Module name | `module xiom.collections` |
-| File path | `stdlib/xiom/collections.xi` |
+| File path | `stdlib/xiom/collections/collections.xi` |
 | One type/module per file | Convention, not enforced |
 | `pub` exports are explicit | Everything private by default |
 
