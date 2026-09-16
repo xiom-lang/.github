@@ -1,5 +1,10 @@
 # Monorepo Split -- Folder -> Repository Mapping
 
+> **SUPERSEDED 2026-09-16:** replaced by [`RELEASE_INFRA_PLAN.md`](RELEASE_INFRA_PLAN.md)
+> sections R1/R2 and Appendix A. Most paths still map as below, but packages now
+> graduate into the separate xiom-packages org, and `registry` here is the package
+> registry (not a container registry).
+
 ## Naming Convention
 
 | Org | Naming | Rationale |

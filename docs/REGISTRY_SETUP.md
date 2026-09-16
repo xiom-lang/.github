@@ -1,5 +1,10 @@
 # XIOM Package Registry -- Setup Guide
 
+> **SUPERSEDED 2026-09-16:** replaced by [`RELEASE_INFRA_PLAN.md`](RELEASE_INFRA_PLAN.md)
+> sections R4/R5. The `.com` domain and the static-JSON/PHP publish design here are
+> stale; the live target is registry.xiom-lang.org speaking the signed `xiom pkg`
+> protocol.
+
 > **Domain:** `https://registry.xiom-lang.com` (owned, DNS pointed to Contabo VPS)
 > **Control Panel:** HestiaCP
 > **Target:** Phase 5d.2 -- Production-grade package registry

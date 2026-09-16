@@ -1,5 +1,9 @@
 # XIOM Production Infrastructure Setup
 
+> **SUPERSEDED 2026-09-16:** replaced by [`RELEASE_INFRA_PLAN.md`](RELEASE_INFRA_PLAN.md).
+> This file is kept for history only; its org name and registry design are stale
+> (the target org is github.com/xiom-lang).
+
 **Domain:** xiom-lang.org | **Registry:** registry.xiom-lang.org | **Git Org:** github.com/xiom-language
 **Date:** 2026-07-20 | **Version:** v0.49.8
 

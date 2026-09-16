@@ -1,5 +1,9 @@
 # XIOM Release Process
 
+> **SUPERSEDED 2026-09-16:** replaced by [`RELEASE_INFRA_PLAN.md`](RELEASE_INFRA_PLAN.md)
+> section R3. Kept for the historical test baselines below; the manual Windows-only
+> procedure is no longer the release path.
+
 ## v0.57.0 "Unsafe Confinement" -- RELEASED (2026-08-10)
 
 **Test baseline: fast-gate 1110 passed / 3 failed (all 3 pre-existing: `test_diff_test_produces_correct_ir` per handoff, stdlib-exec complex + net) / 1 ignored; checker 178/178; stdlib-compile 40/40; parser 96/96; feature-regression 510/510; integration 128/128**
