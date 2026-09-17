@@ -17,6 +17,7 @@ place instead of touching every repository.
 | `.github/CODEOWNERS` | Default code owners for repositories without their own |
 | `.github/ISSUE_TEMPLATE/` | Default bug report, feature request, contact links |
 | `.github/PULL_REQUEST_TEMPLATE.md` | Default pull request checklist |
+| `LICENSE-MIT`, `LICENSE-APACHE`, `NOTICE` | Dual-license texts and third-party attribution |
 | `docs/` | Cross-lane process docs: release plan, migration runbook, org setup, licensing, naming conventions |
 
 ## How the defaults work

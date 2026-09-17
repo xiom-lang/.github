@@ -1,0 +1,14 @@
+XIOM
+Copyright (c) 2026 Eleftherios Notas and XIOM Foundation
+
+Organization-level documentation, default community health files, and
+cross-lane process documentation for the XIOM project
+(https://github.com/xiom-lang).
+
+Licensed under the Apache License, Version 2.0 or the MIT license, at your
+option. See LICENSE-APACHE and LICENSE-MIT.
+
+Third-party attributions:
+- CODE_OF_CONDUCT.md is adapted from the Contributor Covenant, version 2.1
+  (https://www.contributor-covenant.org/version/2/1/code_of_conduct.html),
+  licensed under CC BY 4.0.
