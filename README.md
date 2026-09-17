@@ -1,8 +1,8 @@
 # xiom-lang/.github
 
-Organization-level defaults and cross-lane process documentation for the
-XIOM project. This repository makes changes to shared files possible in one
-place instead of touching every repository.
+Organization-level defaults for the XIOM project. This repository makes
+changes to shared files possible in one place instead of touching every
+repository.
 
 ## What lives here
 
@@ -18,7 +18,7 @@ place instead of touching every repository.
 | `.github/ISSUE_TEMPLATE/` | Default bug report, feature request, contact links |
 | `.github/PULL_REQUEST_TEMPLATE.md` | Default pull request checklist |
 | `LICENSE-MIT`, `LICENSE-APACHE`, `NOTICE` | Dual-license texts and third-party attribution |
-| `docs/` | Cross-lane process docs: release plan, migration runbook, org setup, licensing, naming conventions |
+| `docs/` | Public policy docs: `LICENSING.md` (dual-license policy + SPDX templates) and `NAMING_CONVENTIONS.md` |
 
 ## How the defaults work
 
@@ -40,8 +40,9 @@ gates are tracked in `docs/RELEASE_INFRA_PLAN.md`.
 
 ## Useful documents
 
-- `docs/RELEASE_INFRA_PLAN.md` - release pipeline, VPS setup, registry plan.
-- `docs/ORG_SETUP.md` - organization security settings and the public flip.
 - `docs/LICENSING.md` - dual MIT OR Apache-2.0 policy and SPDX templates.
-- `docs/REPO_MIGRATION_RUNBOOK.md` - how the monorepo was split, with history.
 - `docs/NAMING_CONVENTIONS.md` - repository and package naming rules.
+
+Operational documentation (release plan, migration runbook, organization
+setup, session handoffs, deploy scripts) lives in the private
+`xiom-lang/ops` repository, not here.
