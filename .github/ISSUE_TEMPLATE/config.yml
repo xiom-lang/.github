@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and discussions
+    url: https://github.com/orgs/xiom-lang/discussions
+    about: Ask questions, share ideas, and discuss the project with the community.
+  - name: Language and standard library RFCs
+    url: https://github.com/xiom-lang/rfcs
+    about: Propose language or stdlib changes (the RFC repository opens with the public launch).
+  - name: Security reports
+    url: https://github.com/xiom-lang/.github/blob/main/SECURITY.md
+    about: Report vulnerabilities privately - never in a public issue.

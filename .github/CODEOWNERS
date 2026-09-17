@@ -1,0 +1,8 @@
+# Organization-wide default code owners.
+# Used by any repository in the organization that does not define its own
+# CODEOWNERS file. Replace with team handles as maintainers join.
+
+* @Lefteris-Notas
+
+# Release and automation surfaces require the lead maintainer until teams exist.
+/.github/ @Lefteris-Notas

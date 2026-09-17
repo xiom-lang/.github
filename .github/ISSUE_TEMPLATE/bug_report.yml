@@ -1,0 +1,60 @@
+name: Bug report
+description: Report a defect in the compiler, standard library, registry, or website.
+title: "[bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Please search existing
+        issues first and reduce compiler problems to a minimal `.xi` program.
+        Security issues must NOT be filed here - see SECURITY.md.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Compiler (xiom)
+        - Standard library
+        - Package registry
+        - Website or documentation
+        - Playground
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version and platform
+      description: Output of `xiom --version`, your OS and architecture.
+      placeholder: "xiom 0.60.1, Windows 11 x64"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: The smallest program or command sequence that triggers the issue.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the full error output, exit code, and any crash address.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Related issues, workarounds, or notes about your environment.
+    validations:
+      required: false

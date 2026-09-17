@@ -1,0 +1,45 @@
+name: Feature request
+description: Propose a feature for tooling, the registry, or the website.
+title: "[feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Language and standard library changes are handled through the RFC
+        process (see GOVERNANCE.md and the xiom-lang/rfcs repository), not
+        through this form. Use this form for tooling, registry, website, and
+        workflow ideas.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Tooling (pkg, lsp, dbg, mcp, fmt, doc)
+        - Package registry
+        - Website or documentation
+        - Playground
+        - Build, CI, or release workflow
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve? Who runs into it, and when?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior you want, with examples if useful.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches, workarounds, or prior art.
+    validations:
+      required: false
