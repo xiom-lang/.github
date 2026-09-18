@@ -1,0 +1,4 @@
+# Entry for grammars.yml after `script/add-grammar` (the command writes this
+# itself; included for review).
+source.xi:
+- https://github.com/xiom-lang/xiom-grammar

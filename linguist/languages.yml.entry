@@ -1,0 +1,11 @@
+# Entry for lib/linguist/languages.yml (alphabetical position; keep keys
+# sorted as Linguist requires). Do NOT include language_id:
+# `script/update-ids` assigns it during the PR.
+Xiom:
+  type: programming
+  color: "#FF8A3D"
+  extensions:
+  - ".xi"
+  tm_scope: source.xi
+  ace_mode: text
+  wrap: false

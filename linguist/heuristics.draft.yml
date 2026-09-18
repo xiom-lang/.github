@@ -1,0 +1,15 @@
+# Draft heuristic for lib/linguist/heuristics.yml.
+# The .xi extension is shared with "Logos"; without this rule Linguist
+# classifies XIOM files as Logos. Validate the schema against the current
+# upstream file before merging - the structure below mirrors the existing
+# extensions/rules layout.
+- extensions: ['.xi']
+  rules:
+  - language: Xiom
+    pattern:
+    - '(?m)^\s*(pub\s+)?fn\s+\w+\s*\('
+    - '(?m)^\s*(use\s+xiom\.|requires:|ensures:)'
+    - '(?m)^\s*(struct|enum|trait|impl)\s+\w+'
+  - language: Logos
+    pattern:
+    - '(?m)(jQuery|\$\(document\)|\.css\()'
